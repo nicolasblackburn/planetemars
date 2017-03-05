@@ -1,0 +1,30 @@
+{
+	"name": "sprite-name",
+	"x": 0,
+	"y": 0,
+	"width": 48,
+	"height": 48,
+	"collisionmask": {
+		"type": "rectangle",
+		"x": 0,
+		"y": 0,
+		"width": 48,
+		"height": 48
+	},
+	"animations": [
+		{
+			"name": "animation-name",
+			"sequence": [
+				"image-name"
+			]
+		}
+	],
+	"images": [
+		{
+			"name": "image-name",
+			"image": "../images/sprites-scaled/*.*",
+			"width": 48,
+			"height": 48
+		}
+	]
+}

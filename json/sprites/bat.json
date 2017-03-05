@@ -1,0 +1,78 @@
+{ "name": "bat",
+	"x": 0,
+	"y": 0,
+	"width": 48,
+	"height": 48,
+	"collisionmask": {
+		"type": "rectangle",
+		"x": 0,
+		"y": 0,
+		"width": 48,
+		"height": 48
+	},
+	"animations": [
+		{
+			"name": "bat",
+			"sequence": [
+				"bat-00",
+				"bat-00",
+				"bat-00",
+				"bat-00",
+				"bat-00",
+				"bat-00",
+				"bat-00",
+				"bat-00",
+				"bat-01",
+				"bat-01",
+				"bat-01",
+				"bat-01",
+				"bat-01",
+				"bat-01",
+				"bat-01",
+				"bat-01",
+				"bat-02",
+				"bat-02",
+				"bat-02",
+				"bat-02",
+				"bat-02",
+				"bat-02",
+				"bat-02",
+				"bat-02",
+				"bat-03",
+				"bat-03",
+				"bat-03",
+				"bat-03",
+				"bat-03",
+				"bat-03",
+				"bat-03",
+				"bat-03"
+			]
+		}
+	],
+	"images": [
+		{
+			"name": "bat-00",
+			"image": "../images/sprites-scaled/bat-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "bat-01",
+			"image": "../images/sprites-scaled/bat-01.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "bat-02",
+			"image": "../images/sprites-scaled/bat-02.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "bat-03",
+			"image": "../images/sprites-scaled/bat-03.png",
+			"width": 48,
+			"height": 48
+		}
+	]
+}

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Démo Planète Mars</title>
+		<meta charset="utf-8">
+		<link href='http://fonts.googleapis.com/css?family=Dekko' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Exo:400,400italic,600,600italic' rel='stylesheet' type='text/css'>
+		<link href="css/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
+		<link href="css/sprites/sprites.css" media="screen, projection" rel="stylesheet" type="text/css" />
+		<link href="css/print.css" media="print" rel="stylesheet" type="text/css" />
+		<!--[if IE]>
+			<link href="css/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
+		<![endif]-->
+	</head>
+	<body>
+		<table class="wrapper">
+		  <tr>
+		    <td>
+		      <div id="main"></div>
+		    </td>
+		  </tr>
+		</table>
+		
+		<div class="screen hidden" id="title-screen">
+		  <h1>Planète Mars</h1>
+		  
+		  <nav class="game-nav">
+		    <a class="new-game-button">Nouvelle partie</a>
+		    <!--<a class="continue-game-button">Continuer une partie</a>-->
+		    <a class="options-button">Options</a>
+		  </nav>
+		</div>
+		
+		<div class="screen hidden" id="new-game">
+		  <h1>Planète Mars</h1>
+		  
+		  <form>
+		    <p>Entrez votre nom&nbsp;: <input class="player-name-field" type="text"></p>
+		    
+	      <footer>
+		      <a class="back-button">Retour</a>
+		      <a class="continue-button">Commencer</a>
+	      </footer>
+	    </form>
+		</div>
+		
+		<div class="screen hidden" id="continue-game">
+		  <h1>Planète Mars</h1>
+		  
+	    <form>
+	      <h2>Sélectionnez votre partie&nbsp;:</h2>
+	      
+	      <table>
+	        <tbody>
+	          <tr>
+	            <td>
+	              <label><input name="select_game" type="radio" value="0"> Poulie (3h30)</label>
+	            </td>
+	          </tr>
+	          <tr>
+	            <td class="optgroup">
+	              <label><input name="select_game" type="radio" value="1"> Bobette (1h25)</label>
+	            </td>
+	          </tr>
+	          <tr>
+	            <td class="optgroup">
+	              <label><input name="select_game" type="radio" value="2"> Chnoutte (0h13)</label>
+	            </td>
+	          </tr>
+	        </tbody>
+	      </table>
+		    
+	      <footer>
+		      <a class="back-button">Retour</a>
+		      <a class="continue-button">Continuer</a>
+	      </footer>
+	    </form>
+		</div>
+		
+		<div class="screen hidden" id="options">
+		  <h1>Planète Mars</h1>
+		  
+		  <form class="options-form">
+		    <h2>Contrôles</h2>
+		    
+		    <table>
+		      <tbody>
+		        <tr>
+		          <th><label>Déplacements en haut</label></th>
+		          <td>
+		            <input class="control-up-field" disabled name="control_up" type="text" value="w">
+		            <a class="control-up-button">Modifier</a>
+		          </td>
+		        </tr>
+		        <tr>
+		          <th><label>Déplacements à gauche</label></th>
+		          <td>
+		            <input class="control-left-field" disabled name="control_left" type="text" value="a">
+		            <a class="control-left-button">Modifier</a>
+		          </td>
+		        </tr>
+		        <tr>
+		          <th><label>Déplacements en bas</label></th>
+		          <td>
+		            <input class="control-down-field" disabled name="control_down" type="text" value="s">
+		            <a class="control-down-button" >Modifier</a>
+		          </td>
+		        </tr>
+		        <tr>
+		          <th><label>Déplacements à droite</label></th>
+		          <td>
+		            <input class="control-right-field" disabled name="control_right" type="text" value="d">
+		            <a class="control-right-button"">Modifier</a>
+		          </td>
+		        </tr>
+		        <tr>
+		          <th><label>Action</label></th>
+		          <td>
+		            <input class="control-action-field" disabled name="control_action" type="text" value="f">
+		            <a class="control-action-button">Modifier</a>
+		          </td>
+		        </tr>
+		        <tr>
+		          <th><label>Menu</label></th>
+		          <td>
+		            <input class="control-menu-field" disabled name="control_right" type="text" value="i">
+		            <a class="control-menu-button">Modifier</a>
+		          </td>
+		        </tr>
+		      </tbody>
+		    </table>
+		    
+	      <footer>
+		      <a class="back-button">Retour</a>
+	      </footer>
+		  </form>
+		</div>
+		
+		<script src="js/vendor/jquery/jquery-1.11.1.min.js"></script>
+		
+		<!-- Librairie de l'engin -->
+		<script src="js/planetmars/collision/__collision__.js"></script>
+		<script src="js/planetmars/collision/Collision.js"></script>
+		<script src="js/planetmars/collision/NoCollision.js"></script>
+		<script src="js/planetmars/event/BorderCollisionEvent.js"></script>
+		<script src="js/planetmars/event/BulletCollisionEvent.js"></script>
+		<script src="js/planetmars/event/EnemyCollisionEvent.js"></script>
+		<script src="js/planetmars/event/MapCollisionEvent.js"></script>
+		<script src="js/planetmars/event/ObjectRemovedEvent.js"></script>
+		<script src="js/planetmars/event/KeyEvent.js"></script>
+		<script src="js/planetmars/event/MouseEvent.js"></script>
+		<script src="js/planetmars/geom/__geom__.js"></script>
+		<script src="js/planetmars/geom/Interval.js"></script>
+		<script src="js/planetmars/io/TiledMapReader.js"></script>
+		<script src="js/planetmars/lang/EventBroadcaster.js"></script>
+		<script src="js/planetmars/lang/Game.js"></script>
+		<script src="js/planetmars/lang/KeyboardMap.js"></script>
+		<script src="js/planetmars/lang/Layer.js"></script>
+		<script src="js/planetmars/lang/Map.js"></script>
+		<script src="js/planetmars/lang/Sprite.js"></script>
+		<script src="js/planetmars/lang/Screen.js"></script>
+		<script src="js/planetmars/lang/TileMap.js"></script>
+		<script src="js/planetmars/util/__util__.js"></script>
+		<script src="js/planetmars/util/Graphics.js"></script>
+		<script src="js/planetmars/util/NormalDistribution.js"></script>
+		<script src="js/planetmars/vector/__vector__.js"></script>
+		
+		<!-- Spécifique au jeu -->
+		<script src="js/planetmars/entity/Player.js"></script>
+		<script src="js/planetmars/entity/Bullet.js"></script>
+		<script src="js/planetmars/entity/Bat.js"></script>
+		<script src="js/planetmars/entity/Beast.js"></script>
+		<script src="js/planetmars/entity/Crab.js"></script>
+		<script src="js/planetmars/entity/Worm.js"></script>
+		<script src="js/planetmars/screen/GameScreen.js"></script>
+		<script src="js/planetmars/screen/TitleScreen.js"></script>
+		<script src="js/planetmars/main.js"></script>
+
+	</body>
+</html>

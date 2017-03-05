@@ -1,0 +1,140 @@
+{
+	"name": "beast",
+	"x": 0,
+	"y": 0,
+	"width": 96,
+	"height": 48,
+	"collisionmask": {
+		"type": "rectangle",
+		"x": 0,
+		"y": 0,
+		"width": 96,
+		"height": 48
+	},
+	"animations": [
+		{
+			"name": "running-left",
+			"sequence": [
+				"beast-running-left-00",
+				"beast-running-left-00",
+				"beast-running-left-00",
+				"beast-running-left-00",
+				"beast-running-left-00",
+				"beast-running-left-00",
+				"beast-running-left-00",
+				"beast-running-left-00",
+				"beast-running-left-01",
+				"beast-running-left-01",
+				"beast-running-left-01",
+				"beast-running-left-01",
+				"beast-running-left-01",
+				"beast-running-left-01",
+				"beast-running-left-01",
+				"beast-running-left-01",
+				"beast-running-left-02",
+				"beast-running-left-02",
+				"beast-running-left-02",
+				"beast-running-left-02",
+				"beast-running-left-02",
+				"beast-running-left-02",
+				"beast-running-left-02",
+				"beast-running-left-02",
+				"beast-running-left-03",
+				"beast-running-left-03",
+				"beast-running-left-03",
+				"beast-running-left-03",
+				"beast-running-left-03",
+				"beast-running-left-03",
+				"beast-running-left-03",
+				"beast-running-left-03"
+			]
+		},
+		{
+			"name": "running-right",
+			"sequence": [
+				"beast-running-right-00",
+				"beast-running-right-00",
+				"beast-running-right-00",
+				"beast-running-right-00",
+				"beast-running-right-00",
+				"beast-running-right-00",
+				"beast-running-right-00",
+				"beast-running-right-00",
+				"beast-running-right-01",
+				"beast-running-right-01",
+				"beast-running-right-01",
+				"beast-running-right-01",
+				"beast-running-right-01",
+				"beast-running-right-01",
+				"beast-running-right-01",
+				"beast-running-right-01",
+				"beast-running-right-02",
+				"beast-running-right-02",
+				"beast-running-right-02",
+				"beast-running-right-02",
+				"beast-running-right-02",
+				"beast-running-right-02",
+				"beast-running-right-02",
+				"beast-running-right-02",
+				"beast-running-right-03",
+				"beast-running-right-03",
+				"beast-running-right-03",
+				"beast-running-right-03",
+				"beast-running-right-03",
+				"beast-running-right-03",
+				"beast-running-right-03",
+				"beast-running-right-03"
+			]
+		}
+	],
+	"images": [
+		{
+			"name": "beast-running-left-00",
+			"image": "../images/sprites-scaled/beast-running-left-00.png",
+			"width": 96,
+			"height": 48
+		},
+		{
+			"name": "beast-running-left-01",
+			"image": "../images/sprites-scaled/beast-running-left-01.png",
+			"width": 96,
+			"height": 48
+		},
+		{
+			"name": "beast-running-left-02",
+			"image": "../images/sprites-scaled/beast-running-left-02.png",
+			"width": 96,
+			"height": 48
+		},
+		{
+			"name": "beast-running-left-03",
+			"image": "../images/sprites-scaled/beast-running-left-03.png",
+			"width": 96,
+			"height": 48
+		},
+		{
+			"name": "beast-running-right-00",
+			"image": "../images/sprites-scaled/beast-running-right-00.png",
+			"width": 96,
+			"height": 48
+		},
+		{
+			"name": "beast-running-right-01",
+			"image": "../images/sprites-scaled/beast-running-right-01.png",
+			"width": 96,
+			"height": 48
+		},
+		{
+			"name": "beast-running-right-02",
+			"image": "../images/sprites-scaled/beast-running-right-02.png",
+			"width": 96,
+			"height": 48
+		},
+		{
+			"name": "beast-running-right-03",
+			"image": "../images/sprites-scaled/beast-running-right-03.png",
+			"width": 96,
+			"height": 48
+		}
+	]
+}

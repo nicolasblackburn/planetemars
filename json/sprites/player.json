@@ -1,0 +1,658 @@
+{
+	"name": "player",
+	"x": 0,
+	"y": 0,
+	"width": 48,
+	"height": 48,
+	"collisionmask": {
+		"type": "rectangle",
+		"x": 12,
+		"y": 12,
+		"width": 24,
+		"height": 33
+	},
+	"animations": [
+		{
+			"name": "running-down",
+			"sequence": [
+				"player-running-down-00",
+				"player-running-down-00",
+				"player-running-down-00",
+				"player-running-down-00",
+				"player-running-down-00",
+				"player-running-down-00",
+				"player-running-down-00",
+				"player-running-down-00",
+				"player-running-down-01",
+				"player-running-down-01",
+				"player-running-down-01",
+				"player-running-down-01",
+				"player-running-down-01",
+				"player-running-down-01",
+				"player-running-down-01",
+				"player-running-down-01",
+				"player-running-down-02",
+				"player-running-down-02",
+				"player-running-down-02",
+				"player-running-down-02",
+				"player-running-down-02",
+				"player-running-down-02",
+				"player-running-down-02",
+				"player-running-down-02",
+				"player-running-down-03",
+				"player-running-down-03",
+				"player-running-down-03",
+				"player-running-down-03",
+				"player-running-down-03",
+				"player-running-down-03",
+				"player-running-down-03",
+				"player-running-down-03"
+			]
+		},
+		{
+			"name": "running-left",
+			"sequence": [
+				"player-running-left-00",
+				"player-running-left-00",
+				"player-running-left-00",
+				"player-running-left-00",
+				"player-running-left-00",
+				"player-running-left-00",
+				"player-running-left-00",
+				"player-running-left-00",
+				"player-running-left-01",
+				"player-running-left-01",
+				"player-running-left-01",
+				"player-running-left-01",
+				"player-running-left-01",
+				"player-running-left-01",
+				"player-running-left-01",
+				"player-running-left-01",
+				"player-running-left-02",
+				"player-running-left-02",
+				"player-running-left-02",
+				"player-running-left-02",
+				"player-running-left-02",
+				"player-running-left-02",
+				"player-running-left-02",
+				"player-running-left-02",
+				"player-running-left-03",
+				"player-running-left-03",
+				"player-running-left-03",
+				"player-running-left-03",
+				"player-running-left-03",
+				"player-running-left-03",
+				"player-running-left-03",
+				"player-running-left-03"
+			]
+		},
+		{
+			"name": "running-right",
+			"sequence": [
+				"player-running-right-00",
+				"player-running-right-00",
+				"player-running-right-00",
+				"player-running-right-00",
+				"player-running-right-00",
+				"player-running-right-00",
+				"player-running-right-00",
+				"player-running-right-00",
+				"player-running-right-01",
+				"player-running-right-01",
+				"player-running-right-01",
+				"player-running-right-01",
+				"player-running-right-01",
+				"player-running-right-01",
+				"player-running-right-01",
+				"player-running-right-01",
+				"player-running-right-02",
+				"player-running-right-02",
+				"player-running-right-02",
+				"player-running-right-02",
+				"player-running-right-02",
+				"player-running-right-02",
+				"player-running-right-02",
+				"player-running-right-02",
+				"player-running-right-03",
+				"player-running-right-03",
+				"player-running-right-03",
+				"player-running-right-03",
+				"player-running-right-03",
+				"player-running-right-03",
+				"player-running-right-03",
+				"player-running-right-03"
+			]
+		},
+		{
+			"name": "running-shooting-down",
+			"sequence": [
+				"player-running-shooting-down-00",
+				"player-running-shooting-down-00",
+				"player-running-shooting-down-00",
+				"player-running-shooting-down-00",
+				"player-running-shooting-down-00",
+				"player-running-shooting-down-00",
+				"player-running-shooting-down-00",
+				"player-running-shooting-down-00",
+				"player-running-shooting-down-01",
+				"player-running-shooting-down-01",
+				"player-running-shooting-down-01",
+				"player-running-shooting-down-01",
+				"player-running-shooting-down-01",
+				"player-running-shooting-down-01",
+				"player-running-shooting-down-01",
+				"player-running-shooting-down-01",
+				"player-running-shooting-down-02",
+				"player-running-shooting-down-02",
+				"player-running-shooting-down-02",
+				"player-running-shooting-down-02",
+				"player-running-shooting-down-02",
+				"player-running-shooting-down-02",
+				"player-running-shooting-down-02",
+				"player-running-shooting-down-02",
+				"player-running-shooting-down-03",
+				"player-running-shooting-down-03",
+				"player-running-shooting-down-03",
+				"player-running-shooting-down-03",
+				"player-running-shooting-down-03",
+				"player-running-shooting-down-03",
+				"player-running-shooting-down-03",
+				"player-running-shooting-down-03"
+			]
+		},
+		{
+			"name": "running-shooting-left",
+			"sequence": [
+				"player-running-shooting-left-00",
+				"player-running-shooting-left-00",
+				"player-running-shooting-left-00",
+				"player-running-shooting-left-00",
+				"player-running-shooting-left-00",
+				"player-running-shooting-left-00",
+				"player-running-shooting-left-00",
+				"player-running-shooting-left-00",
+				"player-running-shooting-left-01",
+				"player-running-shooting-left-01",
+				"player-running-shooting-left-01",
+				"player-running-shooting-left-01",
+				"player-running-shooting-left-01",
+				"player-running-shooting-left-01",
+				"player-running-shooting-left-01",
+				"player-running-shooting-left-01",
+				"player-running-shooting-left-02",
+				"player-running-shooting-left-02",
+				"player-running-shooting-left-02",
+				"player-running-shooting-left-02",
+				"player-running-shooting-left-02",
+				"player-running-shooting-left-02",
+				"player-running-shooting-left-02",
+				"player-running-shooting-left-02",
+				"player-running-shooting-left-03",
+				"player-running-shooting-left-03",
+				"player-running-shooting-left-03",
+				"player-running-shooting-left-03",
+				"player-running-shooting-left-03",
+				"player-running-shooting-left-03",
+				"player-running-shooting-left-03",
+				"player-running-shooting-left-03"
+			]
+		},
+		{
+			"name": "running-shooting-right",
+			"sequence": [
+				"player-running-shooting-right-00",
+				"player-running-shooting-right-00",
+				"player-running-shooting-right-00",
+				"player-running-shooting-right-00",
+				"player-running-shooting-right-00",
+				"player-running-shooting-right-00",
+				"player-running-shooting-right-00",
+				"player-running-shooting-right-00",
+				"player-running-shooting-right-01",
+				"player-running-shooting-right-01",
+				"player-running-shooting-right-01",
+				"player-running-shooting-right-01",
+				"player-running-shooting-right-01",
+				"player-running-shooting-right-01",
+				"player-running-shooting-right-01",
+				"player-running-shooting-right-01",
+				"player-running-shooting-right-02",
+				"player-running-shooting-right-02",
+				"player-running-shooting-right-02",
+				"player-running-shooting-right-02",
+				"player-running-shooting-right-02",
+				"player-running-shooting-right-02",
+				"player-running-shooting-right-02",
+				"player-running-shooting-right-02",
+				"player-running-shooting-right-03",
+				"player-running-shooting-right-03",
+				"player-running-shooting-right-03",
+				"player-running-shooting-right-03",
+				"player-running-shooting-right-03",
+				"player-running-shooting-right-03",
+				"player-running-shooting-right-03",
+				"player-running-shooting-right-03"
+			]
+		},
+		{
+			"name": "running-shooting-up",
+			"sequence": [
+				"player-running-shooting-up-00",
+				"player-running-shooting-up-00",
+				"player-running-shooting-up-00",
+				"player-running-shooting-up-00",
+				"player-running-shooting-up-00",
+				"player-running-shooting-up-00",
+				"player-running-shooting-up-00",
+				"player-running-shooting-up-00",
+				"player-running-shooting-up-01",
+				"player-running-shooting-up-01",
+				"player-running-shooting-up-01",
+				"player-running-shooting-up-01",
+				"player-running-shooting-up-01",
+				"player-running-shooting-up-01",
+				"player-running-shooting-up-01",
+				"player-running-shooting-up-01",
+				"player-running-shooting-up-02",
+				"player-running-shooting-up-02",
+				"player-running-shooting-up-02",
+				"player-running-shooting-up-02",
+				"player-running-shooting-up-02",
+				"player-running-shooting-up-02",
+				"player-running-shooting-up-02",
+				"player-running-shooting-up-02",
+				"player-running-shooting-up-03",
+				"player-running-shooting-up-03",
+				"player-running-shooting-up-03",
+				"player-running-shooting-up-03",
+				"player-running-shooting-up-03",
+				"player-running-shooting-up-03",
+				"player-running-shooting-up-03",
+				"player-running-shooting-up-03"
+			]
+		},
+		{
+			"name": "running-up",
+			"sequence": [
+				"player-running-up-00",
+				"player-running-up-00",
+				"player-running-up-00",
+				"player-running-up-00",
+				"player-running-up-00",
+				"player-running-up-00",
+				"player-running-up-00",
+				"player-running-up-00",
+				"player-running-up-01",
+				"player-running-up-01",
+				"player-running-up-01",
+				"player-running-up-01",
+				"player-running-up-01",
+				"player-running-up-01",
+				"player-running-up-01",
+				"player-running-up-01",
+				"player-running-up-02",
+				"player-running-up-02",
+				"player-running-up-02",
+				"player-running-up-02",
+				"player-running-up-02",
+				"player-running-up-02",
+				"player-running-up-02",
+				"player-running-up-02",
+				"player-running-up-03",
+				"player-running-up-03",
+				"player-running-up-03",
+				"player-running-up-03",
+				"player-running-up-03",
+				"player-running-up-03",
+				"player-running-up-03",
+				"player-running-up-03"
+			]
+		},
+		{
+			"name": "shooting-down",
+			"sequence": [
+				"player-shooting-down-00",
+				"player-shooting-down-00",
+				"player-shooting-down-00",
+				"player-shooting-down-00",
+				"player-shooting-down-00",
+				"player-shooting-down-00",
+				"player-shooting-down-00",
+				"player-shooting-down-00"
+			]
+		},
+		{
+			"name": "shooting-left",
+			"sequence": [
+				"player-shooting-left-00",
+				"player-shooting-left-00",
+				"player-shooting-left-00",
+				"player-shooting-left-00",
+				"player-shooting-left-00",
+				"player-shooting-left-00",
+				"player-shooting-left-00",
+				"player-shooting-left-00"
+			]
+		},
+		{
+			"name": "shooting-right",
+			"sequence": [
+				"player-shooting-right-00",
+				"player-shooting-right-00",
+				"player-shooting-right-00",
+				"player-shooting-right-00",
+				"player-shooting-right-00",
+				"player-shooting-right-00",
+				"player-shooting-right-00",
+				"player-shooting-right-00"
+			]
+		},
+		{
+			"name": "shooting-up",
+			"sequence": [
+				"player-shooting-up-00",
+				"player-shooting-up-00",
+				"player-shooting-up-00",
+				"player-shooting-up-00",
+				"player-shooting-up-00",
+				"player-shooting-up-00",
+				"player-shooting-up-00",
+				"player-shooting-up-00"
+			]
+		},
+		{
+			"name": "standing-down",
+			"sequence": [
+				"player-standing-down-00",
+				"player-standing-down-00",
+				"player-standing-down-00",
+				"player-standing-down-00",
+				"player-standing-down-00",
+				"player-standing-down-00",
+				"player-standing-down-00",
+				"player-standing-down-00"
+			]
+		},
+		{
+			"name": "standing-left",
+			"sequence": [
+				"player-standing-left-00",
+				"player-standing-left-00",
+				"player-standing-left-00",
+				"player-standing-left-00",
+				"player-standing-left-00",
+				"player-standing-left-00",
+				"player-standing-left-00",
+				"player-standing-left-00"
+			]
+		},
+		{
+			"name": "standing-right",
+			"sequence": [
+				"player-standing-right-00",
+				"player-standing-right-00",
+				"player-standing-right-00",
+				"player-standing-right-00",
+				"player-standing-right-00",
+				"player-standing-right-00",
+				"player-standing-right-00",
+				"player-standing-right-00"
+			]
+		},
+		{
+			"name": "standing-up",
+			"sequence": [
+				"player-standing-up-00",
+				"player-standing-up-00",
+				"player-standing-up-00",
+				"player-standing-up-00",
+				"player-standing-up-00",
+				"player-standing-up-00",
+				"player-standing-up-00",
+				"player-standing-up-00"
+			]
+		}
+	],
+	"images": [
+		{
+			"name": "player-running-down-00",
+			"image": "../images/sprites-scaled/player-running-down-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-down-01",
+			"image": "../images/sprites-scaled/player-running-down-01.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-down-01",
+			"image": "../images/sprites-scaled/player-running-down-02.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-down-03",
+			"image": "../images/sprites-scaled/player-running-down-03.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-left-00",
+			"image": "../images/sprites-scaled/player-running-left-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-left-01",
+			"image": "../images/sprites-scaled/player-running-left-01.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-left-02",
+			"image": "../images/sprites-scaled/player-running-left-02.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-left-03",
+			"image": "../images/sprites-scaled/player-running-left-03.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-right-00",
+			"image": "../images/sprites-scaled/player-running-right-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-right-01",
+			"image": "../images/sprites-scaled/player-running-right-01.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-right-02",
+			"image": "../images/sprites-scaled/player-running-right-02.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-right-03",
+			"image": "../images/sprites-scaled/player-running-right-03.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-shooting-down-00",
+			"image": "../images/sprites-scaled/player-running-shooting-down-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-shooting-down-01",
+			"image": "../images/sprites-scaled/player-running-shooting-down-01.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-shooting-down-02",
+			"image": "../images/sprites-scaled/player-running-shooting-down-02.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-shooting-down-03",
+			"image": "../images/sprites-scaled/player-running-shooting-down-03.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-shooting-left-00",
+			"image": "../images/sprites-scaled/player-running-shooting-left-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-shooting-left-01",
+			"image": "../images/sprites-scaled/player-running-shooting-left-01.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-shooting-left-02",
+			"image": "../images/sprites-scaled/player-running-shooting-left-02.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-shooting-left-03",
+			"image": "../images/sprites-scaled/player-running-shooting-left-03.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-shooting-right-00",
+			"image": "../images/sprites-scaled/player-running-shooting-right-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-shooting-right-01",
+			"image": "../images/sprites-scaled/player-running-shooting-right-01.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-shooting-right-02",
+			"image": "../images/sprites-scaled/player-running-shooting-right-02.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-shooting-right-03",
+			"image": "../images/sprites-scaled/player-running-shooting-right-03.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-shooting-up-00",
+			"image": "../images/sprites-scaled/player-running-shooting-up-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-shooting-up-01",
+			"image": "../images/sprites-scaled/player-running-shooting-up-01.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-down-00",
+			"image": "../images/sprites-scaled/player-running-shooting-up-02.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-down-00",
+			"image": "../images/sprites-scaled/player-running-shooting-up-03.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-up-00",
+			"image": "../images/sprites-scaled/player-running-up-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-up-01",
+			"image": "../images/sprites-scaled/player-running-up-01.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-up-02",
+			"image": "../images/sprites-scaled/player-running-up-02.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-running-up-03",
+			"image": "../images/sprites-scaled/player-running-up-03.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-shooting-down-00",
+			"image": "../images/sprites-scaled/player-shooting-down-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-shooting-left-00",
+			"image": "../images/sprites-scaled/player-shooting-left-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-shooting-right-00",
+			"image": "../images/sprites-scaled/player-shooting-right-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-player-shooting-up-00",
+			"image": "../images/sprites-scaled/player-shooting-up-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-standing-down-00",
+			"image": "../images/sprites-scaled/player-standing-down-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-standing-left-00",
+			"image": "../images/sprites-scaled/player-standing-left-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-standing-right-00",
+			"image": "../images/sprites-scaled/player-standing-right-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "player-standing-up-00",
+			"image": "../images/sprites-scaled/player-standing-up-00.png",
+			"width": 48,
+			"height": 48
+		}
+	]
+}

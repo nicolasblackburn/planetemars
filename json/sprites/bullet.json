@@ -1,0 +1,42 @@
+{
+	"name": "bullet",
+	"x": 0,
+	"y": 0,
+	"width": 48,
+	"height": 48,
+	"collisionmask": {
+		"type": "rectangle",
+		"x": 18,
+		"y": 18,
+		"width": 12,
+		"height": 12
+	},
+	"animations": [
+		{
+			"name": "horizontal",
+			"sequence": [
+				"bullet-horizontal-00"
+			]
+		},
+		{
+			"name": "vertical",
+			"sequence": [
+				"bullet-vertical-00"
+			]
+		}
+	],
+	"images": [
+		{
+			"name": "bullet-horizontal-00",
+			"image": "../images/sprites-scaled/bullet-horizontal-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "bullet-vertical-00",
+			"image": "../images/sprites-scaled/bullet-vertical-00.png",
+			"width": 48,
+			"height": 48
+		}
+	]
+}

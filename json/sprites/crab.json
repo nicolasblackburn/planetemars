@@ -1,0 +1,89 @@
+{
+	"name": "crab",
+	"x": 0,
+	"y": 0,
+	"width": 48,
+	"height": 48,
+	"collisionmask": {
+		"type": "rectangle",
+		"x": 3,
+		"y": 3,
+		"width": 35,
+		"height": 35
+	},
+	"animations": [
+		{
+			"name": "crab",
+			"sequence": [
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-00",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01",
+				"crab-01"
+			]
+		}
+	],
+	"images": [
+		{
+			"name": "crab-00",
+			"image": "../images/sprites-scaled/crab-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "crab-01",
+			"image": "../images/sprites-scaled/crab-01.png",
+			"width": 48,
+			"height": 48
+		}
+	]
+}

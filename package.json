@@ -1,0 +1,13 @@
+{
+  "name": "nw-demo",
+  "version": "0.0.1",
+  "main": "index.html",
+	"window": {
+    "frame": true,
+    "position": "center",
+		"toolbar": false,
+    "width": 722,
+    "height": 602,
+    "resizable": false
+	}
+}

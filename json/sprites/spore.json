@@ -1,0 +1,30 @@
+{
+	"name": "spore",
+	"x": 0,
+	"y": 0,
+	"width": 48,
+	"height": 48,
+	"collisionmask": {
+		"type": "rectangle",
+		"x": 0,
+		"y": 0,
+		"width": 48,
+		"height": 48
+	},
+	"animations": [
+		{
+			"name": "spore",
+			"sequence": [
+				"spore-00"
+			]
+		}
+	],
+	"images": [
+		{
+			"name": "spore-00",
+			"image": "../images/sprites-scaled/spore-00.png",
+			"width": 48,
+			"height": 48
+		}
+	]
+}

@@ -1,0 +1,378 @@
+{
+	"name": "spaceguy",
+	"x": 0,
+	"y": 0,
+	"width": 48,
+	"height": 48,
+	"collisionmask": {
+		"type": "rectangle",
+		"x": 0,
+		"y": 0,
+		"width": 48,
+		"height": 48
+	},
+	"animations": [
+		{
+			"name": "running-down",
+			"imagesequence": [
+				"spaceguy-running-down-00",
+				"spaceguy-running-down-01",
+				"spaceguy-running-down-02",
+				"spaceguy-running-down-03"
+			]
+		},
+		{
+			"name": "running-left",
+			"imagesequence": [
+				"spaceguy-running-left-00",
+				"spaceguy-running-left-01",
+				"spaceguy-running-left-02",
+				"spaceguy-running-left-03"
+			]
+		},
+		{
+			"name": "running-right",
+			"imagesequence": [
+				"spaceguy-running-right-00",
+				"spaceguy-running-right-01",
+				"spaceguy-running-right-02",
+				"spaceguy-running-right-03"
+			]
+		},
+		{
+			"name": "running-shooting-down",
+			"imagesequence": [
+				"spaceguy-running-shooting-down-00",
+				"spaceguy-running-shooting-down-01",
+				"spaceguy-running-shooting-down-02",
+				"spaceguy-running-shooting-down-03"
+			]
+		},
+		{
+			"name": "running-shooting-left",
+			"imagesequence": [
+				"spaceguy-running-shooting-left-00",
+				"spaceguy-running-shooting-left-01",
+				"spaceguy-running-shooting-left-02",
+				"spaceguy-running-shooting-left-03"
+			]
+		},
+		{
+			"name": "running-shooting-right",
+			"imagesequence": [
+				"spaceguy-running-shooting-right-00",
+				"spaceguy-running-shooting-right-01",
+				"spaceguy-running-shooting-right-02",
+				"spaceguy-running-shooting-right-03"
+			]
+		},
+		{
+			"name": "running-shooting-up",
+			"imagesequence": [
+				"spaceguy-running-shooting-up-00",
+				"spaceguy-running-shooting-up-01",
+				"spaceguy-running-shooting-up-02",
+				"spaceguy-running-shooting-up-03"
+			]
+		},
+		{
+			"name": "running-up",
+			"imagesequence": [
+				"spaceguy-running-up-00",
+				"spaceguy-running-up-01",
+				"spaceguy-running-up-02",
+				"spaceguy-running-up-03"
+			]
+		},
+		{
+			"name": "shooting-down",
+			"imagesequence": [
+				"spaceguy-shooting-down-00"
+			]
+		},
+		{
+			"name": "shooting-left",
+			"imagesequence": [
+				"spaceguy-shooting-left-00"
+			]
+		},
+		{
+			"name": "shooting-right",
+			"imagesequence": [
+				"spaceguy-shooting-right-00"
+			]
+		},
+		{
+			"name": "shooting-up",
+			"imagesequence": [
+				"spaceguy-shooting-up-00"
+			]
+		},
+		{
+			"name": "standing-down",
+			"imagesequence": [
+				"spaceguy-standing-down-00"
+			]
+		},
+		{
+			"name": "standing-left",
+			"imagesequence": [
+				"spaceguy-standing-left-00"
+			]
+		},
+		{
+			"name": "standing-right",
+			"imagesequence": [
+				"spaceguy-standing-right-00"
+			]
+		},
+		{
+			"name": "standing-up",
+			"imagesequence": [
+				"spaceguy-standing-up-00"
+			]
+		}
+	],
+	"images": [
+		{
+			"name": "spaceguy-running-down-00",
+			"image": "../images/sprites-scaled/spaceguy-running-down-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-down-01",
+			"image": "../images/sprites-scaled/spaceguy-running-down-01.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-down-01",
+			"image": "../images/sprites-scaled/spaceguy-running-down-02.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-down-03",
+			"image": "../images/sprites-scaled/spaceguy-running-down-03.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-left-00",
+			"image": "../images/sprites-scaled/spaceguy-running-left-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-left-01",
+			"image": "../images/sprites-scaled/spaceguy-running-left-01.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-left-02",
+			"image": "../images/sprites-scaled/spaceguy-running-left-02.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-left-03",
+			"image": "../images/sprites-scaled/spaceguy-running-left-03.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-right-00",
+			"image": "../images/sprites-scaled/spaceguy-running-right-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-right-01",
+			"image": "../images/sprites-scaled/spaceguy-running-right-01.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-right-02",
+			"image": "../images/sprites-scaled/spaceguy-running-right-02.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-right-03",
+			"image": "../images/sprites-scaled/spaceguy-running-right-03.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-shooting-down-00",
+			"image": "../images/sprites-scaled/spaceguy-running-shooting-down-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-shooting-down-01",
+			"image": "../images/sprites-scaled/spaceguy-running-shooting-down-01.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-shooting-down-02",
+			"image": "../images/sprites-scaled/spaceguy-running-shooting-down-02.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-shooting-down-03",
+			"image": "../images/sprites-scaled/spaceguy-running-shooting-down-03.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-shooting-left-00",
+			"image": "../images/sprites-scaled/spaceguy-running-shooting-left-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-shooting-left-01",
+			"image": "../images/sprites-scaled/spaceguy-running-shooting-left-01.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-shooting-left-02",
+			"image": "../images/sprites-scaled/spaceguy-running-shooting-left-02.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-shooting-left-03",
+			"image": "../images/sprites-scaled/spaceguy-running-shooting-left-03.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-shooting-right-00",
+			"image": "../images/sprites-scaled/spaceguy-running-shooting-right-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-shooting-right-01",
+			"image": "../images/sprites-scaled/spaceguy-running-shooting-right-01.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-shooting-right-02",
+			"image": "../images/sprites-scaled/spaceguy-running-shooting-right-02.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-shooting-right-03",
+			"image": "../images/sprites-scaled/spaceguy-running-shooting-right-03.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-shooting-up-00",
+			"image": "../images/sprites-scaled/spaceguy-running-shooting-up-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-shooting-up-01",
+			"image": "../images/sprites-scaled/spaceguy-running-shooting-up-01.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-down-00",
+			"image": "../images/sprites-scaled/spaceguy-running-shooting-up-02.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-down-00",
+			"image": "../images/sprites-scaled/spaceguy-running-shooting-up-03.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-up-00",
+			"image": "../images/sprites-scaled/spaceguy-running-up-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-up-01",
+			"image": "../images/sprites-scaled/spaceguy-running-up-01.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-up-02",
+			"image": "../images/sprites-scaled/spaceguy-running-up-02.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-running-up-03",
+			"image": "../images/sprites-scaled/spaceguy-running-up-03.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-shooting-down-00",
+			"image": "../images/sprites-scaled/spaceguy-shooting-down-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-shooting-left-00",
+			"image": "../images/sprites-scaled/spaceguy-shooting-left-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-shooting-right-00",
+			"image": "../images/sprites-scaled/spaceguy-shooting-right-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-spaceguy-shooting-up-00",
+			"image": "../images/sprites-scaled/spaceguy-shooting-up-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-standing-down-00",
+			"image": "../images/sprites-scaled/spaceguy-standing-down-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-standing-left-00",
+			"image": "../images/sprites-scaled/spaceguy-standing-left-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-standing-right-00",
+			"image": "../images/sprites-scaled/spaceguy-standing-right-00.png",
+			"width": 48,
+			"height": 48
+		},
+		{
+			"name": "spaceguy-standing-up-00",
+			"image": "../images/sprites-scaled/spaceguy-standing-up-00.png",
+			"width": 48,
+			"height": 48
+		}
+	]
+}

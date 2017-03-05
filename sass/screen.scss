@@ -1,0 +1,194 @@
+@charset 'utf-8';
+
+$tilewidth: 48;
+$tileheight: 48;
+
+$height: $tilewidth*12.5px;
+$width: $tileheight*15px;
+
+html, body {
+  background: #000;
+  //font-family: 'PT Sans', sans-serif;
+  //font-family: 'Exo', sans-serif;
+  font-family: 'Dekko', cursive;
+  height: 100%;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+	position: relative;
+}
+
+.wrapper {
+  border: 0;
+  border-collapse: collapse;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  
+  td {
+    vertical-align: middle;
+  }
+}
+
+#main {
+	background: #242026;
+	border: 0;
+	height: $height;
+	overflow: hidden;
+	margin: 0 auto;
+	position: relative;
+	width: $width; 
+	
+	canvas, .layer {
+	  left: 0;
+	  position: absolute;
+	  top: 0;
+  }
+}
+
+[class^="sprite-"], [class~=" sprite-"] {
+	position: absolute;
+}
+
+.screen {
+  color: #FFF;
+  padding-left: 4rem;
+  position: absolute;
+  
+  a {
+    color: #FFF;
+    cursor: pointer;
+    text-decoration: none;
+    
+    &:hover, &:focus, &:active {
+      color: #CCC;
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+form, table {
+  margin-bottom: 1rem;
+}
+
+footer a {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+nav a {
+  display: block;
+}
+
+th {
+  text-align: left;
+}
+
+h1 {
+  font-style: italic;
+  text-transform: uppercase;
+}
+
+/*  
+[class|="sprite-tileset"] {
+	overflow: hidden;
+	position: absolute;
+}
+
+[class|="sprite-tileset-1"] {
+	//height: ($tileheight + 0px);
+	//width: ($tilewidth + 0px);
+	background-image: url(../images/tileset-1.png);
+}
+
+@for $i from 0 through 256 {
+	.sprite-tileset-1-#{$i} {
+		$x: (0 - (($i * $tilewidth) % ($tilewidth * 16)));
+		$y: (0 - (floor($i * ($tilewidth / ($tilewidth * 16) )) * $tileheight));
+		background-position: ($x + 0px) ($y + 0px);
+	}
+}
+
+// Player sprites
+
+$names: (right left up down);
+$i: 0;
+@for $i from 1 through length($names) {
+	.sprite-tileset-1-player-still#{nth($names, $i)} {
+		background-position: 0px ((0 - $i * $tileheight) + 0px);
+		height: $tileheight + 0px;
+		width: $tilewidth + 0px;
+	}
+	@for $j from 1 through 4 {
+		.sprite-tileset-1-player-running#{nth($names, $i)}-#{$j - 1} {
+			background-position: ((0 - $j * $tilewidth) + 0px) ((0 - $i * $tileheight) + 0px);
+			height: $tileheight + 0px;
+			width: $tilewidth + 0px;
+		}
+	}
+}
+
+// Bullet sprites
+
+$names: (vertical horizontal);
+$i: 0;
+@for $i from 1 through length($names) {
+	.sprite-tileset-1-bullet-#{nth($names, $i)} {
+		background-position: ((0 - ($i - 1) * $tilewidth) + 0px) ((0 - 5*$tileheight) + 0px);
+		height: $tileheight + 0px;
+		width: $tilewidth + 0px;
+	}
+}
+
+// Crab sprites
+
+$i: 0;
+@for $i from 1 through 2 {
+	.sprite-tileset-1-crab-#{$i - 1} {
+		background-position: ((0 - ($i - 1) * $tilewidth) + 0px) ((0 - 6*$tileheight) + 0px);
+		height: $tileheight + 0px;
+		width: $tilewidth + 0px;
+	}
+}
+
+// Bat sprites
+
+$i: 0;
+@for $i from 1 through 5 {
+	.sprite-tileset-1-bat-#{$i - 1} {
+		background-position: ((0 - ($i - 1) * $tilewidth) + 0px) ((0 - 8*$tileheight) + 0px);
+		height: $tileheight + 0px;
+		width: $tilewidth + 0px;
+	}
+}
+
+// Sandworm sprites
+
+$i: 0;
+@for $i from 1 through 7 {
+	.sprite-tileset-1-sandworm-#{$i - 1} {
+		background-position: ((0 - ($i - 1) * $tilewidth) + 0px) ((0 - 9*$tileheight) + 0px);
+		height: $tileheight + 0px;
+		width: $tilewidth + 0px;
+	}
+}
+
+// Beast sprites
+
+$names: (right left);
+$i: 0;
+@for $i from 1 through length($names) {
+	$j: 0;
+	@for $j from 1 through 4 {
+		.sprite-tileset-1-beast-running#{nth($names, $i)}-#{$j - 1} {
+			background-position: ((0 - 2 * $tilewidth -($j - 1) * ($tilewidth * 2)) + 0px) ((0 - (5 + $i)*$tileheight) + 0px);
+			height: $tileheight + 0px;
+			width: ($tilewidth * 2) + 0px;
+		}
+	}
+}
+*/
