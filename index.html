@@ -30,15 +30,8 @@
 		    <!--<a class="continue-game-button">Continuer une partie</a>-->
 		    <a class="options-button">Options</a>
 		  </nav>
-		  
-		  <h2>Info</h2>
-		  
-		  <p>An unfinished Zelda-ish sci-fi game that I made in javascript.</p>
-		  
-		  <p>The whole engine, collisions and animations were programmed from scratch in javascript. Graphics meticulously drawn pixel by pixel using <a href="https://www.gimp.org/">Gimp</a>. I used <a href="http://www.mapeditor.org/">Tiled</a> editor to create the map and export the data to json format. Lots of stuff still to be done. Might continue it some day when I have more time.</p>
-		  
-		  <p>Use 'w', 'a', 's', 'd' to move, 'space' to fire bullets.</p>
 		</div>
+	    <!--
 		
 		<div class="screen hidden" id="new-game">
 		  <h1>Planète Mars</h1>
@@ -52,8 +45,7 @@
 	      </footer>
 	    </form>
 		</div>
-		
-		<div class="screen hidden" id="continue-game">
+		<div class="screen hidden" id="continue-game-screen">
 		  <h1>Planète Mars</h1>
 		  
 	    <form>
@@ -85,8 +77,9 @@
 	      </footer>
 	    </form>
 		</div>
+		-->
 		
-		<div class="screen hidden" id="options">
+		<div class="screen hidden" id="options-screen">
 		  <h1>Planète Mars</h1>
 		  
 		  <form class="options-form">
@@ -97,42 +90,42 @@
 		        <tr>
 		          <th><label>Déplacements en haut</label></th>
 		          <td>
-		            <input class="control-up-field" disabled name="control_up" type="text" value="w">
+		            <input class="control-up-field keyboard-map" disabled data-keyboard-map="move_up" type="text" value="w">
 		            <a class="control-up-button">Modifier</a>
 		          </td>
 		        </tr>
 		        <tr>
 		          <th><label>Déplacements à gauche</label></th>
 		          <td>
-		            <input class="control-left-field" disabled name="control_left" type="text" value="a">
+		            <input class="control-left-field keyboard-map" disabled data-keyboard-map="move_left" type="text" value="a">
 		            <a class="control-left-button">Modifier</a>
 		          </td>
 		        </tr>
 		        <tr>
 		          <th><label>Déplacements en bas</label></th>
 		          <td>
-		            <input class="control-down-field" disabled name="control_down" type="text" value="s">
-		            <a class="control-down-button" >Modifier</a>
+		            <input class="control-down-field keyboard-map" disabled data-keyboard-map="move_down" type="text" value="s">
+		            <a class="control-down-button">Modifier</a>
 		          </td>
 		        </tr>
 		        <tr>
 		          <th><label>Déplacements à droite</label></th>
 		          <td>
-		            <input class="control-right-field" disabled name="control_right" type="text" value="d">
-		            <a class="control-right-button"">Modifier</a>
+		            <input class="control-right-field keyboard-map" disabled data-keyboard-map="move_right" type="text" value="d">
+		            <a class="control-right-button">Modifier</a>
 		          </td>
 		        </tr>
 		        <tr>
 		          <th><label>Action</label></th>
 		          <td>
-		            <input class="control-action-field" disabled name="control_action" type="text" value="f">
+		            <input class="control-action-field keyboard-map" disabled data-keyboard-map="action_fire" type="text" value="f">
 		            <a class="control-action-button">Modifier</a>
 		          </td>
 		        </tr>
 		        <tr>
 		          <th><label>Menu</label></th>
 		          <td>
-		            <input class="control-menu-field" disabled name="control_right" type="text" value="i">
+		            <input class="control-menu-field keyboard-map" disabled data-keyboard-map="show_menu" type="text" value="i">
 		            <a class="control-menu-button">Modifier</a>
 		          </td>
 		        </tr>
@@ -154,10 +147,12 @@
 		<script src="js/planetmars/event/BorderCollisionEvent.js"></script>
 		<script src="js/planetmars/event/BulletCollisionEvent.js"></script>
 		<script src="js/planetmars/event/EnemyCollisionEvent.js"></script>
-		<script src="js/planetmars/event/MapCollisionEvent.js"></script>
-		<script src="js/planetmars/event/ObjectRemovedEvent.js"></script>
 		<script src="js/planetmars/event/KeyEvent.js"></script>
+		<script src="js/planetmars/event/MapCollisionEvent.js"></script>
 		<script src="js/planetmars/event/MouseEvent.js"></script>
+		<script src="js/planetmars/event/ObjectRemovedEvent.js"></script>
+		<script src="js/planetmars/event/RoomEnterEvent.js"></script>
+		<script src="js/planetmars/event/RoomExitEvent.js"></script>
 		<script src="js/planetmars/geom/__geom__.js"></script>
 		<script src="js/planetmars/geom/Interval.js"></script>
 		<script src="js/planetmars/io/TiledMapReader.js"></script>
@@ -182,6 +177,7 @@
 		<script src="js/planetmars/entity/Crab.js"></script>
 		<script src="js/planetmars/entity/Worm.js"></script>
 		<script src="js/planetmars/screen/GameScreen.js"></script>
+		<script src="js/planetmars/screen/OptionsScreen.js"></script>
 		<script src="js/planetmars/screen/TitleScreen.js"></script>
 		<script src="js/planetmars/main.js"></script>
 

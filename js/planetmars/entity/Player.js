@@ -102,7 +102,7 @@ var planetmars = (function(pm) {
 		
 		this.handleMovementControls(control);
 		
-		if ("action" == control && this.bulletCount < 3 && ! this.isStunned) {
+		if ("action_fire" == control && this.bulletCount < 3 && ! this.isStunned) {
 			var bullet = new this.screen.bulletClass(this.screen);
 			bullet.position = pm.util.arrayCopy(this.position);
 			bullet.setDirection(this.direction);

@@ -187,10 +187,6 @@ var planetmars = (function (pm, $) {
 		this.paused = true;
 		this.eventBroadcaster.paused = true;
 		
-		if (this.currentScreen) {
-			this.currentScreen.paused = true;
-		}
-		
 		if (this.timeoutId) {
 			clearTimeout(this.timeoutId);
 		}
@@ -201,10 +197,6 @@ var planetmars = (function (pm, $) {
 		
 		this.paused = false;
 		this.eventBroadcaster.paused = false;
-		
-		if (this.currentScreen) {
-			this.currentScreen.paused = false;
-		}
 		
 		this.beforeTime = new Date().getTime();
 		this.sleepTime = 0;
@@ -264,17 +256,21 @@ var planetmars = (function (pm, $) {
 		this.timePeriod = 1000 / this.frameRate;
 	};
 	
-	Game.prototype.setState = function(state) {
-		
+	Game.prototype.setScreen = function(id) {
 		if (this.currentScreen) {
 			this.eventBroadcaster.removeListener(this.currentScreen);
 			
-			this.currentScreen.tearDown();
+			this.currentScreen.hide();
+			
+			if (this.currentScreen.tearDown) {
+				this.currentScreen.tearDown();
+			}
 		}
 		
-		this.currentScreen = state;
-			
-		this.eventBroadcaster.addListeners(state);
+		this.currentScreen = this.screens[id];
+		this.screens[id].show();
+		
+		this.eventBroadcaster.addListener(this.currentScreen);
 	};
 	
 	Game.prototype.update = function() {

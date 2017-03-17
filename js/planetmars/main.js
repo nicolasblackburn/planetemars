@@ -4,14 +4,14 @@
 		var game = window.game = new planetmars.lang.Game(document.getElementById("main"), {
 			autoplay: true,
 			init: function() {
-				var screen, i;
+				var i;
 				
 				this.keyboardMap.set(pm.event.KeyEvent.KEY_MAP['w'], 'move_up');
 				this.keyboardMap.set(pm.event.KeyEvent.KEY_MAP['a'], 'move_left');
 				this.keyboardMap.set(pm.event.KeyEvent.KEY_MAP['s'], 'move_down');
 				this.keyboardMap.set(pm.event.KeyEvent.KEY_MAP['d'], 'move_right');
-				this.keyboardMap.set(pm.event.KeyEvent.KEY_MAP[' '], 'action');
-				this.keyboardMap.set(pm.event.KeyEvent.KEY_MAP['i'], 'menu');
+				this.keyboardMap.set(pm.event.KeyEvent.KEY_MAP['f'], 'action_fire');
+				this.keyboardMap.set(pm.event.KeyEvent.KEY_MAP['i'], 'show_menu');
 				
 				// Un save de base
 				/*
@@ -25,12 +25,14 @@
 				}
 				*/
 				
-				screen = new planetmars.screen.TitleScreen(this);
-				//screen = new planetmars.screen.GameScreen(this);
-				this.screens.push(screen);
-				this.currentScreen = screen;
+				this.screens['title-screen'] = new planetmars.screen.TitleScreen(this, "#title-screen");
+				this.screens['options-screen'] = new planetmars.screen.OptionsScreen(this, "#options-screen");
+				this.screens['game-screen'] = new planetmars.screen.GameScreen(this);
+				
+				//this.setScreen('title-screen');
+				this.setScreen('game-screen');
 		
-		    window.g = new planetmars.util.Graphics(game.currentScreen.graphics);
+				//window.g = new planetmars.util.Graphics(this.screens['game-screen']);
 			},
 			resources: {
 				images: [

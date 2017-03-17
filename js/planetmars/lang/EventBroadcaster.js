@@ -178,15 +178,7 @@ var planetmars = (function(pm) {
 				case "KeyDown":
 				case "KeyUp":
 				
-					for (i = 0; i < this.listeners.length; i++) {
-						if (this.listeners[i]["on"+event.type]) {
-							this.listeners[i]["on"+event.type](event);
-							
-							if (event.stopPropagation) {
-								break;
-							}
-						}
-					}
+					this.dispatchEvent(event);
 					
 					break;
 					
@@ -194,15 +186,7 @@ var planetmars = (function(pm) {
 				case "MouseUp":
 				case "MouseMove":
 				
-					for (i = 0; i < this.listeners.length; i++) {
-						if (this.listeners[i]["on"+event.type]) {
-							this.listeners[i]["on"+event.type](event);
-							
-							if (event.stopPropagation) {
-								break;
-							}
-						}
-					}
+					this.dispatchEvent(event);
 					
 					break;
 			}

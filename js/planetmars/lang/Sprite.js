@@ -9,7 +9,7 @@ var planetmars = (function(pm) {
 
 		this.type = "Sprite";
 		
-		this.broadcastEventEnabled = false;
+		this.broadcastEventEnabled = true;
 		
 		// Graphiques
 		this.height = 48;
