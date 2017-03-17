@@ -29,8 +29,7 @@
 				this.screens['options-screen'] = new planetmars.screen.OptionsScreen(this, "#options-screen");
 				this.screens['game-screen'] = new planetmars.screen.GameScreen(this);
 				
-				//this.setScreen('title-screen');
-				this.setScreen('game-screen');
+				this.setScreen('title-screen');
 		
 				//window.g = new planetmars.util.Graphics(this.screens['game-screen']);
 			},
