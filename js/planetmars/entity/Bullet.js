@@ -1,8 +1,7 @@
 var planetmars = (function(pm) { 
 	function Bullet(screen) {
-		pm.lang.Sprite.call(this, screen);
-
-		this.type = "Bullet";
+		pm.lang.Sprite.call(this, screen, "Bullet");
+		
 		this.MAX_VELOCITY = 6;
 		
 		this.collisionShape = pm.geom.rectangle(
@@ -10,10 +9,6 @@ var planetmars = (function(pm) {
 				this.screen.game.resources.sprites["bullet"].collisionmask.y ], 
 			[ this.screen.game.resources.sprites["bullet"].collisionmask.width, 
 				this.screen.game.resources.sprites["bullet"].collisionmask.height ] );
-		
-		this.direction = "down";
-		
-		this.spriteIndex = "bullet-vertical-00";
 	}
 	
 	Bullet.prototype = new pm.lang.Sprite();

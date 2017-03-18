@@ -10,20 +10,8 @@
 				this.keyboardMap.set(pm.event.KeyEvent.KEY_MAP['a'], 'move_left');
 				this.keyboardMap.set(pm.event.KeyEvent.KEY_MAP['s'], 'move_down');
 				this.keyboardMap.set(pm.event.KeyEvent.KEY_MAP['d'], 'move_right');
-				this.keyboardMap.set(pm.event.KeyEvent.KEY_MAP['f'], 'action_fire');
+				this.keyboardMap.set(pm.event.KeyEvent.KEY_MAP[' '], 'action_fire');
 				this.keyboardMap.set(pm.event.KeyEvent.KEY_MAP['i'], 'show_menu');
-				
-				// Un save de base
-				/*
-				{
-				  "chapter": 0,
-				  "map": "world",
-				  "savePoint": 0,
-				  "items": {},
-				  "maxEnergy": 3,
-				  "continues": 3
-				}
-				*/
 				
 				this.screens['title-screen'] = new planetmars.screen.TitleScreen(this, "#title-screen");
 				this.screens['options-screen'] = new planetmars.screen.OptionsScreen(this, "#options-screen");
@@ -49,7 +37,6 @@
 					"json/sprites/beast.json",
 					"json/sprites/bullet.json",
 					"json/sprites/crab.json",
-					"json/sprites/new-sprite.json",
 					"json/sprites/player.json",
 					"json/sprites/spore.json",
 					"json/sprites/worm.json"

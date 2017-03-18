@@ -11,6 +11,7 @@
 		"width": 42,
 		"height": 43
 	},
+	"defaultanimation": "crab",
 	"animations": [
 		{
 			"name": "crab",

@@ -17,7 +17,7 @@
          "name":"background-2",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":240,
          "x":0,
          "y":0
@@ -28,7 +28,7 @@
          "name":"background-3",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":240,
          "x":0,
          "y":0
@@ -70,7 +70,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":864,
@@ -86,7 +86,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":912,
@@ -102,7 +102,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":1200,
@@ -118,7 +118,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":960,
@@ -134,7 +134,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":1536,
@@ -150,7 +150,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":1680,
@@ -166,7 +166,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":1632,
@@ -182,7 +182,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":1584,
@@ -198,7 +198,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":1632,
@@ -214,7 +214,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":1920,
@@ -230,7 +230,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":1968,
@@ -246,7 +246,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":1968,
@@ -262,7 +262,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":1824,
@@ -278,7 +278,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":1680,
@@ -294,7 +294,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":1536,
@@ -310,7 +310,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":1296,
@@ -326,7 +326,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":1200,
@@ -342,7 +342,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":912,
@@ -358,7 +358,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":816,
@@ -374,7 +374,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":528,
@@ -390,7 +390,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":384,
@@ -406,7 +406,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":384,
@@ -422,7 +422,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":288,
@@ -438,7 +438,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":96,
@@ -454,7 +454,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":864,
@@ -470,7 +470,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":816,
@@ -486,7 +486,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":960,
@@ -502,7 +502,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":1104,
@@ -518,7 +518,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":1104,
@@ -534,7 +534,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":1248,
@@ -550,7 +550,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Crab",
+                 "type":"Crab",
                  "visible":true,
                  "width":48,
                  "x":1296,
@@ -566,7 +566,7 @@
 
                     },
                  "rotation":0,
-                 "type":"planetmars.entity.Bat",
+                 "type":"Bat",
                  "visible":true,
                  "width":48,
                  "x":480,
@@ -581,7 +581,7 @@
         }, 
         {
          "draworder":"topdown",
-         "height":88,
+         "height":0,
          "name":"savepoints",
          "objects":[
                 {
@@ -602,7 +602,7 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":240,
+         "width":0,
          "x":0,
          "y":0
         }],
@@ -610,7 +610,8 @@
  "orientation":"orthogonal",
  "properties":
     {
-     "initialSavePoint":"Save Point 1"
+     "initialSavePoint":"Save Point 1",
+     "objectTypes":""
     },
  "renderorder":"right-down",
  "tileheight":48,

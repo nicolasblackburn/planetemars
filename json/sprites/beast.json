@@ -11,6 +11,7 @@
 		"width": 96,
 		"height": 48
 	},
+	"defaultanimation": "running-left",
 	"animations": [
 		{
 			"name": "running-left",

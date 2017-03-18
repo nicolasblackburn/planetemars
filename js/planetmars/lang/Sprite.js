@@ -1,13 +1,17 @@
 var planetmars = (function(pm) { 
 
-	function Sprite(screen) {
+	function Sprite(screen, type) {
 		if (! arguments.length) {
 			return;
 		}
 		
+		if (! type) {
+			type = "Sprite";
+		}
+		
 		this.screen = screen;
-
-		this.type = "Sprite";
+		
+		this.type = type;
 		
 		this.broadcastEventEnabled = true;
 		
@@ -27,10 +31,21 @@ var planetmars = (function(pm) {
 		
 		// Animation
 		this.spriteIndex = 0;
-		this.animated = false;
+		this.animated = true;
 		this.currentAnimation = "default";
 		this.currentAnimationFrame = 0;
-		this.animations = {"default": [0]};
+		
+		var animation = [0], name = this.screen.objectTypeNames[this.type];
+		
+		if (this.screen.game.resources.sprites[name] && this.screen.game.resources.sprites[name].defaultanimation) {
+			this.currentAnimation = this.screen.game.resources.sprites[name].defaultanimation;
+			
+			if (this.screen.game.resources.sprites[name] && this.screen.game.resources.sprites[name].animations[this.currentAnimation]) {
+				animation = this.screen.game.resources.sprites[name].animations[this.currentAnimation];
+			}
+			
+			this.spriteIndex = animation[this.currentAnimationFrame];
+		}
 	}
 	
 	Sprite.prototype.dispatchEvent = function(event) {
@@ -51,6 +66,31 @@ var planetmars = (function(pm) {
 		return this.collisionShape;
 	};
 	
+	Sprite.prototype.getData = function() {
+		var data = {};
+		
+		// Graphiques
+		data.height = this.height;
+		data.width = this.width;
+		
+		// Physique
+		data.position = [this.position[0], this.position[1]];
+		data.velocity = [this.velocity[0], this.velocity[0]];
+		data.acceleration = [this.acceleration[0], this.acceleration[1]];
+		
+		// Une liste de points énumérés dans le sens horaire
+		data.collisionShape = pm.geom.rectangle(
+			[this.collisionShape[0][0], this.collisionShape[0][1]], 
+			[this.collisionShape[1][0], this.collisionShape[1][1]] ); 
+		
+		// Animation
+		data.spriteIndex = this.spriteIndex;
+		data.currentAnimation = this.currentAnimation;
+		data.currentAnimationFrame = this.currentAnimationFrame;
+		
+		return data;
+	};
+	
 	Sprite.prototype.onObjectRemoved = function(event) {
 		if (event.object.type && this["on" + event.object.type + "Removed"]) {
 			this["on" + event.object.type + "Removed"](event);
@@ -66,7 +106,31 @@ var planetmars = (function(pm) {
 			});
 	};
 	
+	Sprite.prototype.setData = function(data) {
+		// Graphiques
+		this.height = data.height;
+		this.width = data.width;
+		
+		// Physique
+		this.position = [data.position[0], data.position[1]];
+		this.velocity = [data.velocity[0], data.velocity[0]];
+		this.acceleration = [data.acceleration[0], data.acceleration[1]];
+		
+		// Une liste de points énumérés dans le sens horaire
+		this.collisionShape = pm.geom.rectangle(
+			[data.collisionShape[0][0], data.collisionShape[0][1]], 
+			[data.collisionShape[1][0], data.collisionShape[1][1]] ); 
+		
+		// Animation
+		this.spriteIndex = data.spriteIndex;
+		this.currentAnimation = data.currentAnimation;
+		this.currentAnimationFrame = data.currentAnimationFrame;
+		
+		return this;
+	};
+	
 	Sprite.prototype.update = function() {
+		var animation = [0], name = this.screen.objectTypeNames[this.type];
 		
 		// Mettre à jour la position
 		this.velocity = pm.vector.add(this.velocity, this.acceleration);
@@ -89,12 +153,18 @@ var planetmars = (function(pm) {
 		
 		// Mettre à jour l'index de sprite correspondant à l'image d'animation courante
 		if (this.animated) {
+			
+			if (this.screen.game.resources.sprites[name] && this.screen.game.resources.sprites[name].animations[this.currentAnimation]) {
+				animation = this.screen.game.resources.sprites[name].animations[this.currentAnimation];
+			}
+			
 			this.currentAnimationFrame++;
-			if (this.currentAnimationFrame >= this.animations[this.currentAnimation].length) {
+			
+			if (this.currentAnimationFrame >= animation.length) {
 				this.currentAnimationFrame = 0;
 			}
-		
-			this.spriteIndex = this.animations[this.currentAnimation][this.currentAnimationFrame];
+			
+			this.spriteIndex = animation[this.currentAnimationFrame];
 		}
 		
 	};

@@ -11,6 +11,7 @@
 		"width": 12,
 		"height": 12
 	},
+	"defaultanimation": "vertical",
 	"animations": [
 		{
 			"name": "horizontal",

@@ -1,6 +1,26 @@
 var planetmars = (function(pm, undefined) {
     function GameScreen(game) {
         pm.lang.Screen.call(this, game);
+				
+		this.objectTypeClasses = {
+			"Bat": pm.entity.Bat,
+			"Beast": pm.entity.Beast,
+			"Bullet": pm.entity.Bullet,
+			"Crab": pm.entity.Crab,
+			"Player": pm.entity.Player,
+			"Spore": pm.entity.Spore,
+			"Worm": pm.entity.Worm,
+		};
+				
+		this.objectTypeNames = {
+			"Bat": "bat",
+			"Beast": "beast",
+			"Bullet": "bullet",
+			"Crab": "crab",
+			"Player": "player",
+			"Spore": "spore",
+			"Worm": "worm",
+		};
 
         this.debug = false;
 
@@ -18,13 +38,11 @@ var planetmars = (function(pm, undefined) {
             .appendTo(this.element);
 
         this.graphics = this.canvas[0].getContext("2d");
+        
+        this.objectElements = [];
 
         this.bulletClass = pm.entity.Bullet;
         this.playerClass = pm.entity.Player;
-
-        // Gestion des objets
-        this.spawnQueue = [];
-        this.objectElements = [];
 
         this.foreground = null;
         this.background = null;
@@ -37,15 +55,21 @@ var planetmars = (function(pm, undefined) {
         this.viewportHeight = 528;
         this.hudWidth = 720;
         this.hudHeight = 72;
-
-        this.player = new this.playerClass(this);
         this.savePoints = [];
+
+        this.enemiesMapData = [];
+		
+		// Données sérialisables
 
         this.rooms = [];
         this.roomX = 0;
         this.roomY = 0;
-
-        this.enemiesMapData = [];
+        
+        this.player = new this.playerClass(this);
+        
+        this.spawnQueue = [];
+        
+        // Fin des données sérialisables
 
         // Initialisation
 
@@ -230,23 +254,25 @@ var planetmars = (function(pm, undefined) {
             } else if (layers[i].name == "savepoints") {
                 savePoints = layers[i];
             } else if (layers[i].type == "tilelayer") {
-                layer = new planetmars.lang.TileMap(
-                    game,
-                    layers[i].width * mapReader.getTileWidth(),
-                    layers[i].height * mapReader.getTileHeight(),
-                    mapReader.getTileWidth(),
-                    mapReader.getTileHeight(),
-                    layers[i].tiles,
-                    mapReader.getTilesets()
-                );
+				layer = new planetmars.lang.TileMap(
+					game,
+					layers[i].width * mapReader.getTileWidth(),
+					layers[i].height * mapReader.getTileHeight(),
+					mapReader.getTileWidth(),
+					mapReader.getTileHeight(),
+					layers[i].tiles,
+					mapReader.getTilesets()
+				);
+				
+				if (layers[i].visible || layers[i].name == "background" || layers[i].name == "foreground") {
+					this.layers.push(layer);
 
-                this.layers.push(layer);
-
-                if (layers[i].name == "background") {
-                    this.background = layer;
-                } else if (layers[i].name == "foreground") {
-                    this.foreground = layer;
-                }
+					if (layers[i].name == "background") {
+						this.background = layer;
+					} else if (layers[i].name == "foreground") {
+						this.foreground = layer;
+					}
+				}
             }
         }
 
@@ -376,28 +402,11 @@ var planetmars = (function(pm, undefined) {
     };
 
     GameScreen.prototype.populateRooms = function() {
-        var i, object, objectClass, objectClassPath, objectData, roomX, roomY;
+        var i, object, objectData, roomX, roomY;
         for (i = 0; i < this.enemiesMapData.objects.length; i++) {
             objectData = this.enemiesMapData.objects[i];
-            objectClassPath = objectData.type.split(".");
 
-            if (typeof window[objectClassPath[0]] == "undefined") {
-                continue;
-            }
-
-            objectClass = window[objectClassPath[0]];
-
-            objectClassPath = objectClassPath.slice(1);
-            while (objectClassPath.length) {
-                if (typeof objectClass[objectClassPath[0]] == "undefined") {
-                    break;
-                    continue;
-                }
-                objectClass = objectClass[objectClassPath[0]];
-                objectClassPath = objectClassPath.slice(1);
-            }
-
-            object = new objectClass(this);
+            object = new this.objectTypeClasses[objectData.type](this);
             object.position = [parseInt(objectData.x % this.viewportWidth),
                 parseInt(objectData.y % this.viewportHeight - objectData.height)
             ];
@@ -653,6 +662,46 @@ var planetmars = (function(pm, undefined) {
             this.dispatchEvent(event);
         }
     };
+    
+    GameScreen.prototype.saveState = function() {
+		var data = {}, i, j, k;
+		
+		// Données sérialisables
+		
+        data.rooms = [];
+        
+		for (i = 0; i < this.rooms.length; i++) {
+			data.rooms[i] = [];
+			for (j = 0; j < this.rooms[i].length; j++) {
+				data.rooms[i][j] = [];
+				
+				for (k = 0; k < this.rooms[i][j].length; k++) {
+					data.rooms[i][j][k] = this.rooms[i][j][k].getData();
+				}
+			}
+		}
+		
+        data.roomX = this.roomX;
+        data.roomY = this.roomY;
+        
+        data.player = this.player.getData();
+
+        // Gestion des objets
+				
+        data.spawnQueue = [];
+        
+		for (i = 0; i < this.spawnQueue.length; i++) {
+			data.spawnQueue[i] = this.spawnQueue[i].getData();
+		}
+		
+		return JSON.stringify(data);
+	};
+	
+	GameScreen.prototype.loadState = function(data) {
+		data = JSON.parse(data);
+		
+		return this;
+	}
 
     GameScreen.prototype.setPlayerPosition = function(roomX, roomY, positionX, positionY) {
 		var event;

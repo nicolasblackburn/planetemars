@@ -1,23 +1,12 @@
 var planetmars = (function(pm) { 
 	function Crab(screen) {
-		pm.lang.Sprite.call(this, screen);
-
-		this.type = "Crab";
+		pm.lang.Sprite.call(this, screen, "Crab");
 		
 		this.collisionShape = pm.geom.rectangle(
 			[ this.screen.game.resources.sprites["crab"].collisionmask.x, 
 				this.screen.game.resources.sprites["crab"].collisionmask.y ], 
 			[ this.screen.game.resources.sprites["crab"].collisionmask.width, 
 				this.screen.game.resources.sprites["crab"].collisionmask.height ] );
-		
-		this.animated = true;
-		this.currentAnimation = "crab";
-
-		var i, animations;
-		animations = this.screen.game.resources.sprites["crab"].animations;
-		for (i = 0; i < animations.length; i++) {
-			this.animations[animations[i].name] = animations[i].sequence;
-		}
 		
 		randomDir(this);
 	} 
@@ -32,6 +21,10 @@ var planetmars = (function(pm) {
 	};
 	
 	Crab.prototype.onMapCollision = function(event) {
+		if (! event.collision.axis) {
+			return;
+		}
+		
 		var axis, box, future, interv1, interpos1, mov, newvelocity, newposition, 
 			oldposition, oldvelocity, shape;
 		
@@ -95,22 +88,18 @@ var planetmars = (function(pm) {
 	function randomDir(self) {
 		switch (Math.floor(Math.random() * 4)) {
 			case 0:
-				self.direction = "left";
 				self.velocity = [-1,0];
 				break;
 			
 			case 1:
-				self.direction = "down";
 				self.velocity = [0,1];
 				break;
 				
 			case 2:
-				self.direction = "right";
 				self.velocity = [1,0];
 				break;
 				
 			case 3:
-				self.direction = "up";
 				self.velocity = [0,-1];
 		}
 		self.changeDirectionCountDown = 50;

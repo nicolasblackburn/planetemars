@@ -1,8 +1,7 @@
 var planetmars = (function(pm) { 
 	function Player(screen) {
-		pm.lang.Sprite.call(this, screen);
-
-		this.type = "Player";
+		pm.lang.Sprite.call(this, screen, "Player");
+		
 		this.MAX_VELOCITY = 2;
 		
 		this.broadcastEventEnabled = true;
@@ -26,15 +25,6 @@ var planetmars = (function(pm) {
 		
 		this.isBlinking = false;
 		this.blinkingTimeout = 0;
-		
-		this.animated = true;
-		this.currentAnimation = "standing-down";
-
-		var i, animations;
-		animations = this.screen.game.resources.sprites["player"].animations;
-		for (i = 0; i < animations.length; i++) {
-			this.animations[animations[i].name] = animations[i].sequence;
-		}
 	}
 	
 	Player.prototype = new pm.lang.Sprite();
@@ -265,8 +255,18 @@ var planetmars = (function(pm) {
 	  this.velocityBeforeStunned[0] = this.velocity[0];
 	  this.velocityBeforeStunned[1] = this.velocity[1];
 	  this.animationBeforeStunned = this.currentAnimation;
-	  this.velocity[0] = -this.velocity[0]*2;
-	  this.velocity[1] = -this.velocity[1]*2;
+	  
+	  if (this.velocity[0]) {
+		this.velocity[0] = -this.velocity[0]*2;
+	} else if (event.enemy.velocity[0]) {
+		this.velocity[0] = event.enemy.velocity[0]/event.enemy.velocity[0]*this.MAX_VELOCITY*2;
+	}
+	
+	  if (this.velocity[1]) {
+		this.velocity[1] = -this.velocity[1]*2;
+	} else if (event.enemy.velocity[1]) {
+		this.velocity[1] = event.enemy.velocity[1]/event.enemy.velocity[1]*this.MAX_VELOCITY*2;
+	}
 	  this.currentAnimation = 'standing-'+this.direction;
 	};
 	

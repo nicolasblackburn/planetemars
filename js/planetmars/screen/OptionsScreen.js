@@ -50,10 +50,14 @@ var planetmars = (function(pm, undefined) {
     OptionsScreen.prototype.updateView = function() {
         var game = this.game;
         
-        $(".keyboard-map").each(function() {
+        $(".keyboard-map").each(function(i) {
             var self = $(this);
             
             var char = pm.event.KeyEvent.KEYCODE_MAP[game.keyboardMap.reverseGet(self.data("keyboard-map"))];
+            
+            if  (char == ' ') {
+                char = 'espace';
+            }
             
             self.val(char);
         });

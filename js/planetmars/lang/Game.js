@@ -151,10 +151,24 @@ var planetmars = (function (pm, $) {
 								deferred.reject();
 							})
 							.done(function(data) {
+								var i, animations;
+								
 								data.id = id;
 								data.url = resource.url;
 								
 								self.resources[resource.type][id] = data;
+								
+								if (resource.type == "sprites") {
+									
+									// Nommer les animations
+									animations = {};
+									
+									for (i = 0; i < data.animations.length; i++) {
+										animations[data.animations[i].name] = data.animations[i].sequence;
+									}
+									
+									self.resources[resource.type][id].animations = animations;
+								}
 								
 								loaded.push(resource.type + " " + resource.url);
 								
