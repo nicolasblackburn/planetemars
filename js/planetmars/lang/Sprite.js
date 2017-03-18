@@ -66,8 +66,10 @@ var planetmars = (function(pm) {
 		return this.collisionShape;
 	};
 	
-	Sprite.prototype.getData = function() {
+	Sprite.prototype.getState = function() {
 		var data = {};
+		
+		data.type = this.Type;
 		
 		// Graphiques
 		data.height = this.height;
@@ -77,11 +79,6 @@ var planetmars = (function(pm) {
 		data.position = [this.position[0], this.position[1]];
 		data.velocity = [this.velocity[0], this.velocity[0]];
 		data.acceleration = [this.acceleration[0], this.acceleration[1]];
-		
-		// Une liste de points énumérés dans le sens horaire
-		data.collisionShape = pm.geom.rectangle(
-			[this.collisionShape[0][0], this.collisionShape[0][1]], 
-			[this.collisionShape[1][0], this.collisionShape[1][1]] ); 
 		
 		// Animation
 		data.spriteIndex = this.spriteIndex;
@@ -106,7 +103,7 @@ var planetmars = (function(pm) {
 			});
 	};
 	
-	Sprite.prototype.setData = function(data) {
+	Sprite.prototype.setState = function(data) {
 		// Graphiques
 		this.height = data.height;
 		this.width = data.width;
@@ -115,11 +112,6 @@ var planetmars = (function(pm) {
 		this.position = [data.position[0], data.position[1]];
 		this.velocity = [data.velocity[0], data.velocity[0]];
 		this.acceleration = [data.acceleration[0], data.acceleration[1]];
-		
-		// Une liste de points énumérés dans le sens horaire
-		this.collisionShape = pm.geom.rectangle(
-			[data.collisionShape[0][0], data.collisionShape[0][1]], 
-			[data.collisionShape[1][0], data.collisionShape[1][1]] ); 
 		
 		// Animation
 		this.spriteIndex = data.spriteIndex;

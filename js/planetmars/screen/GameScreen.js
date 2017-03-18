@@ -140,6 +140,9 @@ var planetmars = (function(pm, undefined) {
     // Libère les ressources de la chambre actuelle (éléments html et écouteurs d'événements) 
     GameScreen.prototype.freeRoom = function() {
         var objects, i, element;
+        
+        this.removeBulletsInRoom(this.roomX, this.roomY);
+        this.removeObject(this.player);
 
         objects = this.getCurrentRoomObjects();
 
@@ -676,7 +679,7 @@ var planetmars = (function(pm, undefined) {
 				data.rooms[i][j] = [];
 				
 				for (k = 0; k < this.rooms[i][j].length; k++) {
-					data.rooms[i][j][k] = this.rooms[i][j][k].getData();
+					data.rooms[i][j][k] = this.rooms[i][j][k].getState();
 				}
 			}
 		}
@@ -684,30 +687,70 @@ var planetmars = (function(pm, undefined) {
         data.roomX = this.roomX;
         data.roomY = this.roomY;
         
-        data.player = this.player.getData();
+        data.player = this.player.getState();
 
         // Gestion des objets
 				
         data.spawnQueue = [];
         
 		for (i = 0; i < this.spawnQueue.length; i++) {
-			data.spawnQueue[i] = this.spawnQueue[i].getData();
+			data.spawnQueue[i] = this.spawnQueue[i].getState();
 		}
 		
 		return JSON.stringify(data);
 	};
 	
 	GameScreen.prototype.loadState = function(data) {
+        var i, object, objectData, roomX, roomY;
+        
+        this.freeRoom();
+        
 		data = JSON.parse(data);
+		
+        data.rooms = [];
+        
+		for (i = 0; i < data.rooms.length; i++) {
+			for (j = 0; j < data.rooms[i].length; j++) {
+				for (k = 0; k < data.rooms[i][j].length; k++) {
+					objectData = data.rooms[i][j][k];
+
+					object = new this.objectTypeClasses[objectData.type](this);
+					object.setState(objectData);
+            
+					this.rooms[i][j][k] = object;
+				}
+			}
+		}
+		
+        this.roomX = data.roomX;
+        this.roomY = data.roomY;
+        
+        this.player = new this.playerClass(this);
+        this.player.setState(data.player);
+        
+        this.setPlayerPosition(
+            data.roomX, data.roomY,
+            data.player.position[0], data.player.position[1]
+        );
+
+        // Gestion des objets
+				
+        this.spawnQueue = [];
+        
+		for (i = 0; i < data.spawnQueue.length; i++) {
+			objectData = data.spawnQueue[i];
+
+			object = new this.objectTypeClasses[objectData.type](this);
+			object.setState(objectData);
+			
+			this.spawnQueue[i] = object;
+		}
 		
 		return this;
 	}
 
     GameScreen.prototype.setPlayerPosition = function(roomX, roomY, positionX, positionY) {
 		var event;
-		
-        this.removeObject(this.player);
-        this.removeBulletsInRoom(this.roomX, this.roomY);
 		
         this.setRoom(roomX, roomY);
         this.addObject(this.player, false, roomX, roomY);
@@ -716,7 +759,6 @@ var planetmars = (function(pm, undefined) {
     };
 
     GameScreen.prototype.setRoom = function(roomX, roomY) {
-        this.freeRoom();
         this.roomX = roomX;
         this.roomY = roomY;
         this.setupRoom();

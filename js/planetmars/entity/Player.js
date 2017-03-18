@@ -95,6 +95,9 @@ var planetmars = (function(pm) {
 		if ("action_fire" == control && this.bulletCount < 3 && ! this.isStunned) {
 			var bullet = new this.screen.bulletClass(this.screen);
 			bullet.position = pm.util.arrayCopy(this.position);
+			if (this.velocity[0] || this.velocity[1]) {
+				bullet.countdown += 8;
+			}
 			bullet.setDirection(this.direction);
 			this.bulletCount++;
 			this.screen.addObject(bullet, true);
@@ -187,6 +190,9 @@ var planetmars = (function(pm) {
 			case pm.event.BorderCollisionEvent.NORTH_BORDER:
 			  roomCoordinates = this.screen.getTopRoomCoordinates();
 			  if (false !== roomCoordinates) {
+				  
+				this.screen.freeRoom();
+				
 			    this.screen.setPlayerPosition(
 			      roomCoordinates[0], 
 			      roomCoordinates[1], 
@@ -199,6 +205,9 @@ var planetmars = (function(pm) {
 			case pm.event.BorderCollisionEvent.EAST_BORDER:
 			  roomCoordinates = this.screen.getLeftRoomCoordinates();
 			  if (false !== roomCoordinates) {
+				  
+				this.screen.freeRoom();
+				
 			    this.screen.setPlayerPosition(
 			      roomCoordinates[0], 
 			      roomCoordinates[1], 
@@ -211,6 +220,9 @@ var planetmars = (function(pm) {
 			case pm.event.BorderCollisionEvent.SOUTH_BORDER:
 			  roomCoordinates = this.screen.getBottomRoomCoordinates();
 			  if (false !== roomCoordinates) {
+				  
+				this.screen.freeRoom();
+				
 			    this.screen.setPlayerPosition(
 			      roomCoordinates[0], 
 			      roomCoordinates[1], 
@@ -223,6 +235,9 @@ var planetmars = (function(pm) {
 			case pm.event.BorderCollisionEvent.WEST_BORDER:
 			  roomCoordinates = this.screen.getRightRoomCoordinates();
 			  if (false !== roomCoordinates) {
+				  
+				this.screen.freeRoom();
+				
 			    this.screen.setPlayerPosition(
 			      roomCoordinates[0], 
 			      roomCoordinates[1], 

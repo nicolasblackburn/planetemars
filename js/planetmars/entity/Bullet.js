@@ -4,6 +4,8 @@ var planetmars = (function(pm) {
 		
 		this.MAX_VELOCITY = 6;
 		
+		this.countdown = 16;
+		
 		this.collisionShape = pm.geom.rectangle(
 			[ this.screen.game.resources.sprites["bullet"].collisionmask.x, 
 				this.screen.game.resources.sprites["bullet"].collisionmask.y ], 
@@ -41,6 +43,17 @@ var planetmars = (function(pm) {
 				break;
 		}
 	};
+	
+	Bullet.prototype.update = function() {
+	  
+		pm.lang.Sprite.prototype.update.call(this);
+		
+		if (this.countdown) {
+			this.countdown--;
+		} else {
+			this.screen.removeObject(this);
+		}
+	}
  
 	pm.entity = pm.entity || {};
 	
