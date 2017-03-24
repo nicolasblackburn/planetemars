@@ -161,34 +161,47 @@ var planetmars = (function(pm) {
 		return collision;
 	};
 	
-	collision.segmentsCollide = function (u, v, w) {
-		var axis, collision, finalaxis, p, segment, time, tmin, umin, umax, vmin, vmax, segments;
+	/**
+	 * Cette fonction détecte une collision continue entre deux segments dont l'un est en mouvement et l'autre statique.
+	 * Elle prend 2 segments `u` et `v` en paramètres, plus un vecteur de déplacement `d`. Le vecteur `v` est considéré comme statique.
+	 */
+	collision.segmentsCollide = function (u, v, d) {
+		var ortho, collision, finalaxis, p, time, tmin, umin, umax, vmin, vmax, w, segments, finalAxisIsU = false;
 		
 		collision = new pm.collision.NoCollision();
 		segments = [];
 
-		// Projection sur l'axe de u
+		// Calcul le vecteur orthogonal `ortho` par rapport au segment `u`
+		w = pm.vector.subtract(u[1], u[0]);
+		ortho = pm.vector.orthogonalVector(w);
 		
-		segment = pm.vector.subtract(u[1], u[0]);
-		axis = pm.vector.orthogonalVector(segment);
-		
-		pm.vector.minMaxProjection([u[0], u[1]], axis, function(min, max) {
+		// Projette le segment `u` sur son vecteur orthogonal
+		pm.vector.minMaxProjection([u[0], u[1]], ortho, function(min, max) {
 			umin = min;
 			umax = max;
 		});
 		
-		pm.vector.minMaxProjection([v[0], v[1]], axis, function(min, max) {
+		if (umin != umax) {
+			console.log("(umin,umax): "+([umin,umax]).toString, "u: "+u.toString(), "ortho: "+ortho.toString());
+		}
+		
+		// Projette le segment `v` sur le vecteur orthogonal
+		pm.vector.minMaxProjection([v[0], v[1]], ortho, function(min, max) {
 			vmin = min;
 			vmax = max;
 		});
 		
+		// On vérifie d'abord que les intervalles projettés de `u` et de `v` ne s'intersectent
 		if ( ! pm.geom.intervalsIntersectStrict([umin, umax], [vmin, vmax]) ) {
-
-			// Pas de collision statique
-			p = pm.vector.projectOnto(w, axis);
-			p = axis[0] ? p[0] : p[1];
-
-			if ( p == 0 || 
+			
+			w = pm.vector.projectOnto(d, ortho);
+			if (ortho[0] != 0) {
+				p = p[0];
+			} else {
+				p = p[1];
+			}
+			
+			if ( p == 0 || // Pas de mouvement
 				( p < 0 && umin < vmax && umin + p > vmax ) || 
 				( p < 0 && umax < vmin ) || 
 				( p > 0 && umax < vmin && umax + p < vmin ) || 
@@ -196,7 +209,7 @@ var planetmars = (function(pm) {
 
 				// console.log("pas de collision u dynamique", umin, umax, vmin, vmax, p, axis);
 
-				return new pm.collision.NoCollision();;
+				return new pm.collision.NoCollision();
 
 			} else {
 
@@ -208,7 +221,7 @@ var planetmars = (function(pm) {
 
 					collision = new pm.collision.Collision();
 					collision.time = time;
-					collision.axis = axis;
+					collision.axis = ortho;
 					collision.velocity = v;
 
 				}
@@ -218,33 +231,38 @@ var planetmars = (function(pm) {
 		} else {
 
 			// console.log("collision u statique", umin, umax, vmin, vmax, axis);
-
-			if (umin == vmin || umin == vmax) {
-				finalaxis = axis;
-			}
+			//if (umin == vmin || umin == vmax) {
+			if (Math.abs(umin - vmin) < 0.0001 || Math.abs(umin - vmax) < 0.0001) {
+				finalaxis = ortho;
+			} 
 
 		}
-
-		// Projection sur l'axe de v
 		
-		segment = pm.vector.subtract(v[1], v[0]);
-		axis = pm.vector.orthogonalVector(segment);
+		// Calcul le vecteur orthogonal `ortho` par rapport au segment `v`
+		w = pm.vector.subtract(v[1], v[0]);
+		ortho = pm.vector.orthogonalVector(w);
 		
-		pm.vector.minMaxProjection([u[0], u[1]], axis, function(min, max) {
+		// Projette le segment `v` sur son vecteur orthogonal
+		pm.vector.minMaxProjection([u[0], u[1]], ortho, function(min, max) {
 			umin = min;
 			umax = max;
 		});
 		
-		pm.vector.minMaxProjection([v[0], v[1]], axis, function(min, max) {
+		// Projette le segment `u` sur le vecteur orthogonal
+		pm.vector.minMaxProjection([v[0], v[1]], ortho, function(min, max) {
 			vmin = min;
 			vmax = max;
 		});
 		
 		if ( ! pm.geom.intervalsIntersectStrict([umin, umax], [vmin, vmax]) ) {
-			
 			// Pas de collision statique
-			p = pm.vector.projectOnto(w, axis);
-			p = axis[0] ? p[0] : p[1];
+			
+			w = pm.vector.projectOnto(d, ortho);
+			if (ortho[0] != 0) {
+				p = p[0];
+			} else {
+				p = p[1];
+			}
 
 			if ( p == 0 || 
 				( p < 0 && umin < vmax && umin + p > vmax ) || 
@@ -267,7 +285,7 @@ var planetmars = (function(pm) {
 
 					collision = new pm.collision.Collision();
 					collision.time = time;
-					collision.axis = axis;
+					collision.axis = ortho;
 					collision.velocity = v;
 
 				}
@@ -278,21 +296,25 @@ var planetmars = (function(pm) {
 
 			// console.log("collision v statique", umin, umax, vmin, vmax, axis);
 
-			if ( vmin == umin || vmin == umax ) {
-				finalaxis = axis;
+			//if ( vmin == umin || vmin == umax ) {
+			if (Math.abs(vmin - umin) < 0.0001 || Math.abs(vmin - umax) < 0.0001) {
+			//if (!finalAxisIsU) {
+				finalaxis = ortho;
 			}
 
 		}
 
-		// Projection sur l'axe de w
-		axis = pm.vector.orthogonalVector(w);
+		// Calcul le vecteur orthogonal `ortho` par rapport au vecteur de déplacement `d`
+		ortho = pm.vector.orthogonalVector(d);
 		
-		pm.vector.minMaxProjection([u[0], u[1]], axis, function(min, max) {
+		// Projette le segment `v` sur le vecteur orthogonal
+		pm.vector.minMaxProjection([u[0], u[1]], ortho, function(min, max) {
 			umin = min;
 			umax = max;
 		});
 		
-		pm.vector.minMaxProjection([v[0], v[1]], axis, function(min, max) {
+		// Projette le segment `u` sur le vecteur orthogonal
+		pm.vector.minMaxProjection([v[0], v[1]], ortho, function(min, max) {
 			vmin = min;
 			vmax = max;
 		});
@@ -305,8 +327,18 @@ var planetmars = (function(pm) {
 
 
 		}
-				
+		
+		// Si l'algorithme se rend jusqu'ici, c'est qu'il y a eu collision
+		
+		/*
 		if ( ! collision.collide ) {
+			
+			if (!finalaxis) {
+				// Quel axe prendre ? le plus près ?
+				// En attendant on prend l'axe orthogonal à v
+				segment = pm.vector.subtract(v[1], v[0]);
+				finalaxis = pm.vector.orthogonalVector(segment);
+			}
 
 			collision = new pm.collision.Collision();
 			collision.time = 0;
@@ -314,6 +346,7 @@ var planetmars = (function(pm) {
 			collision.velocity = v;
 
 		}
+		*/
 		
 		// console.log("final", collision.time, collision.axis);
 

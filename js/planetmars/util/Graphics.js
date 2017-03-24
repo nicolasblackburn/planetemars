@@ -114,6 +114,8 @@ var planetmars = (function (pm, undefined) {
 			return;
 		}
 		
+		console.log(this.g);
+		
 		this.g.beginPath();
 		this.g.moveTo(shape[0][0] + 0.5, shape[0][1] + 0.5);
 		

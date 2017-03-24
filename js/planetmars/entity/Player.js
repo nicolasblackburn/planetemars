@@ -2,7 +2,7 @@ var planetmars = (function(pm) {
 	function Player(screen) {
 		pm.lang.Sprite.call(this, screen, "Player");
 		
-		this.MAX_VELOCITY = 2;
+		this.MAX_VELOCITY = 1.5;
 		
 		this.broadcastEventEnabled = true;
 		
@@ -274,13 +274,13 @@ var planetmars = (function(pm) {
 	  if (this.velocity[0]) {
 		this.velocity[0] = -this.velocity[0]*2;
 	} else if (event.enemy.velocity[0]) {
-		this.velocity[0] = event.enemy.velocity[0]/event.enemy.velocity[0]*this.MAX_VELOCITY*2;
+		this.velocity[0] = event.enemy.velocity[0]/Math.abs(event.enemy.velocity[0])*this.MAX_VELOCITY*2;
 	}
 	
 	  if (this.velocity[1]) {
 		this.velocity[1] = -this.velocity[1]*2;
 	} else if (event.enemy.velocity[1]) {
-		this.velocity[1] = event.enemy.velocity[1]/event.enemy.velocity[1]*this.MAX_VELOCITY*2;
+		this.velocity[1] = event.enemy.velocity[1]/Math.abs(event.enemy.velocity[1])*this.MAX_VELOCITY*2;
 	}
 	  this.currentAnimation = 'standing-'+this.direction;
 	};

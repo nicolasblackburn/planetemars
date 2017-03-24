@@ -7,6 +7,8 @@ var planetmars = (function(pm) {
 				this.screen.game.resources.sprites["crab"].collisionmask.y ], 
 			[ this.screen.game.resources.sprites["crab"].collisionmask.width, 
 				this.screen.game.resources.sprites["crab"].collisionmask.height ] );
+				
+		this.history = [];
 		
 		randomDir(this);
 	} 
@@ -22,7 +24,9 @@ var planetmars = (function(pm) {
 	
 	Crab.prototype.onMapCollision = function(event) {
 		if (! event.collision.axis) {
-			return;
+			console.log(JSON.stringify(this.history));
+			console.log(JSON.stringify(event.collision));
+			//return;
 		}
 		
 		var axis, box, future, interv1, interpos1, mov, newvelocity, newposition, 
@@ -83,24 +87,30 @@ var planetmars = (function(pm) {
 		} else {
 			randomDir(this);
 		}
+		
+		if (this.history.length > 10) {
+			this.history = this.history.slice(-10);
+		}
+		
+		this.history.push(this.getState());
 	}
 	
 	function randomDir(self) {
 		switch (Math.floor(Math.random() * 4)) {
 			case 0:
-				self.velocity = [-1,0];
+				self.velocity = [-1.5,0];
 				break;
 			
 			case 1:
-				self.velocity = [0,1];
+				self.velocity = [0,1.5];
 				break;
 				
 			case 2:
-				self.velocity = [1,0];
+				self.velocity = [1.5,0];
 				break;
 				
 			case 3:
-				self.velocity = [0,-1];
+				self.velocity = [0,-1.5];
 		}
 		self.changeDirectionCountDown = 50;
 	}

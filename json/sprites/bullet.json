@@ -11,7 +11,7 @@
 		"width": 12,
 		"height": 12
 	},
-	"defaultanimation": "vertical",
+	"defaultanimation": "bullet-vertical",
 	"animations": [
 		{
 			"name": "horizontal",

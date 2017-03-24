@@ -23,9 +23,11 @@ var planetmars = (function(pm) {
 		this.direction = value;
 		
 		if (this.direction == "up" || this.direction == "down") {
-			this.spriteIndex = "bullet-vertical-00";
+			this.currentAnimation = "vertical";
+			//this.spriteIndex = "bullet-vertical-00";
 		} else {
-			this.spriteIndex = "bullet-horizontal-00";
+			this.currentAnimation = "horizontal";
+			//this.spriteIndex = "bullet-horizontal-00";
 		}
 		
 		switch (this.direction) {

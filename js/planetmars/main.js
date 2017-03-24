@@ -17,9 +17,10 @@
 				this.screens['options-screen'] = new planetmars.screen.OptionsScreen(this, "#options-screen");
 				this.screens['game-screen'] = new planetmars.screen.GameScreen(this);
 				
-				this.setScreen('title-screen');
+				//this.setScreen('title-screen');
+				this.setScreen('game-screen');
 		
-				//window.g = new planetmars.util.Graphics(this.screens['game-screen']);
+				window.g = new planetmars.util.Graphics(this.screens['game-screen'].graphics);
 			},
 			resources: {
 				images: [
@@ -157,6 +158,8 @@ function drawShapesCollisionInfo(shape1, shape2, v, collide, t, axis) {
 		intershape2 = planetmars.geom.translate(intershape1, interv2);
 		intervertex2 = planetmars.vector.add(intervertex1, interv2);
 		
+		console.log(JSON.stringify(intershape2));
+		
 		g
 			.setFillAndStrokeStyle("#0C6")
 			.strokeShape(intershape1)
@@ -219,7 +222,7 @@ function testSATShapesCollision() {
 }
 
 function testSegmentsCollision(no) {
-	var collision, segment1, segment2, v;
+	var collision, segment1, segment2, v, test;
 	
 	game.currentScreen.needRepaint = true;
 	game.currentScreen.paint();
@@ -302,6 +305,13 @@ function testSegmentsCollision(no) {
 			segment2 = planetmars.geom.translate([[100, 107], [130, 107]], [100,100]);
 			v = [0, -48];
 			break;
+
+		case 14:
+			test = {"segment1":[[48,384.75],[90,384.75]],"segment2":[[96,432],[48,384]],"velocity":[0,1.5]};
+			segment1 = test.segment1;
+			segment2 = test.segment2;
+			v = test.velocity;
+			break;
 	}
 	
 	collision = planetmars.collision.segmentsCollide(segment1, segment2, v);
@@ -358,6 +368,30 @@ function testShapesCollisionBug2() {
 	}
 }
 
+function testShapesCollisionBug3() {
+	var collision, segment1, segment2, v;
+	
+	game.currentScreen.needRepaint = true;
+	game.currentScreen.paint();
+	
+	segment1 = [[222.79687499999994,467.796875],[222.79687499999994,510.796875]];
+	segment2 = [[240,528],[192,480]];
+	
+	v = [-2, 0];
+	
+	collision = new planetmars.collision.NoCollision();
+	
+	collision = planetmars.collision.segmentsCollide([segment1[0], segment1[1]], [segment2[0], segment2[1]], v);
+	
+	if (collision.collide) {
+	  console.log("collide", collision);
+		//drawShapesCollisionInfo(shape1, shape2, v, collision.collide, collision.time, collision.axis);
+	} else {
+	  console.log("don't collide", collision);
+		//drawShapesCollisionInfo(shape1, shape2, v, collision.collide);
+	}
+}
+
 function testShapesCollision2() {
 	var collision, shape1, shape2, v;
 	
@@ -379,6 +413,63 @@ function testShapesCollision2() {
 	}
 }
 
+function testShapesCollision3() {
+	var collision, colltest = {collide:true,shape1:[[48,341.75],[90,341.75],[90,384.75],[48,384.75]],shape2:[[48,432],[48,384],[96,432]],time:0,velocity:[0,10]};
+	
+	game.currentScreen.needRepaint = true;
+	game.currentScreen.paint();
+	
+	collision = new planetmars.collision.NoCollision();
+	
+	collision = planetmars.collision.polygonsCollideProjective(colltest.shape1, colltest.shape2, colltest.velocity);
+	
+	if (collision.collide) {
+		console.log("collide");
+		drawShapesCollisionInfo(collision.shape1, collision.shape2, collision.velocity, collision.collide, collision.time, collision.axis);
+	} else {
+		console.log("don't collide");
+		drawShapesCollisionInfo(collision.shape1, collision.shape2, collision.velocity, collision.collide);
+	}
+}
+
+function testShapesCollision4() {
+	var collision, colltest = {"collide":true,"shape1":[[238.49999999999997,0],[280.5,0],[280.5,43],[238.49999999999997,43]],"shape2":[[192,0],[240,0],[192,48]],"time":0,"velocity":[-1.5,0]};
+	
+	game.currentScreen.needRepaint = true;
+	game.currentScreen.paint();
+	
+	collision = new planetmars.collision.NoCollision();
+	
+	collision = planetmars.collision.polygonsCollideProjective(colltest.shape1, colltest.shape2, colltest.velocity);
+	
+	if (collision.collide) {
+		console.log("collide");
+		drawShapesCollisionInfo(collision.shape1, collision.shape2, collision.velocity, collision.collide, collision.time, collision.axis);
+	} else {
+		console.log("don't collide");
+		drawShapesCollisionInfo(collision.shape1, collision.shape2, collision.velocity, collision.collide);
+	}
+}
+
+function testShapesCollision5() {
+	var history = [{"height":48,"width":48,"position":[45,325.75],"velocity":[0,0],"acceleration":[0,0],"spriteIndex":"crab-00","currentAnimation":"crab","currentAnimationFrame":6},{"height":48,"width":48,"position":[45,327.25],"velocity":[0,0],"acceleration":[0,0],"spriteIndex":"crab-00","currentAnimation":"crab","currentAnimationFrame":7},{"height":48,"width":48,"position":[45,328.75],"velocity":[0,0],"acceleration":[0,0],"spriteIndex":"crab-00","currentAnimation":"crab","currentAnimationFrame":8},{"height":48,"width":48,"position":[45,330.25],"velocity":[0,0],"acceleration":[0,0],"spriteIndex":"crab-00","currentAnimation":"crab","currentAnimationFrame":9},{"height":48,"width":48,"position":[45,331.75],"velocity":[0,0],"acceleration":[0,0],"spriteIndex":"crab-00","currentAnimation":"crab","currentAnimationFrame":10},{"height":48,"width":48,"position":[45,333.25],"velocity":[0,0],"acceleration":[0,0],"spriteIndex":"crab-00","currentAnimation":"crab","currentAnimationFrame":11},{"height":48,"width":48,"position":[45,334.75],"velocity":[0,0],"acceleration":[0,0],"spriteIndex":"crab-00","currentAnimation":"crab","currentAnimationFrame":12},{"height":48,"width":48,"position":[45,336.25],"velocity":[0,0],"acceleration":[0,0],"spriteIndex":"crab-00","currentAnimation":"crab","currentAnimationFrame":13},{"height":48,"width":48,"position":[45,337.75],"velocity":[0,0],"acceleration":[0,0],"spriteIndex":"crab-00","currentAnimation":"crab","currentAnimationFrame":14},{"height":48,"width":48,"position":[45,337.99999999999994],"velocity":[0,0],"acceleration":[0,0],"spriteIndex":"crab-00","currentAnimation":"crab","currentAnimationFrame":15},{"height":48,"width":48,"position":[45,338.75],"velocity":[0,0],"acceleration":[0,0],"spriteIndex":"crab-00","currentAnimation":"crab","currentAnimationFrame":16}];
+	var collision_err = {"collide":true,"shape1":[[48,341.75],[90,341.75],[90,384.75],[48,384.75]],"shape2":[[48,432],[48,384],[96,432]],"time":0,"velocity":[0,1.5]};
+	//var collision_err = {"collide":true,"shape1":[[48,340.99999999999994],[90,340.99999999999994],[90,383.99999999999994],[48,383.99999999999994]],"shape2":[[48,432],[48,384],[96,432]],"time":0,"velocity":[0,1.5]};
+	
+	game.currentScreen.needRepaint = true;
+	game.currentScreen.paint();
+	
+	collision = planetmars.collision.polygonsCollideProjective(collision_err.shape1, collision_err.shape2, collision_err.velocity);
+	
+	if (collision.collide) {
+		console.log("collide");
+		drawShapesCollisionInfo(collision.shape1, collision.shape2, collision.velocity, collision.collide, collision.time, collision.axis);
+	} else {
+		console.log("don't collide");
+		drawShapesCollisionInfo(collision.shape1, collision.shape2, collision.velocity, collision.collide);
+	}
+}
+			
 function setPosition(x, y, vx, vy) {
 	//console.log(x, y, vx, vy);
 	game.pause();
