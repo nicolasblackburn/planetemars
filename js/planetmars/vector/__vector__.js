@@ -128,6 +128,10 @@ var planetmars = (function(pm, undefined) {
 		return vector.norm( vector.projectOnto( v, w ) );
 	};
 	
+	vector.projectSegmentOnto = function (s, v) {
+		return [pm.vector.projectOnto(s[0], v), pm.vector.projectOnto(s[1], v)];
+	};
+	
 	// vector.scale(a, v)
 	// vector.scale(v, a)
 	vector.scale = function() {

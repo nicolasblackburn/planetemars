@@ -161,196 +161,274 @@ var planetmars = (function(pm) {
 		return collision;
 	};
 	
+	function segment_coordinates(coordinate) {
+		return function(segment) {
+			return [segment[0][coordinate],segment[1][coordinate]];
+		}
+	}
+	
+	function solve(u,v,y) {
+			
+		var det, s, t;
+		
+		det = u[0]*v[1] - u[1]*v[0];
+		
+		if (det != 0) {
+			
+			s = (u[1]*y[0] - u[0]*y[1])/det;
+			t = (v[0]*y[1] - v[1]*y[0])/det;
+			
+			return [s,t];
+			
+		}
+		
+	}
+	
+	function getCoordinate(s,i) {
+		return [s[0][i], s[1][i]];
+	}
+	
 	/**
 	 * Cette fonction détecte une collision continue entre deux segments dont l'un est en mouvement et l'autre statique.
 	 * Elle prend 2 segments `u` et `v` en paramètres, plus un vecteur de déplacement `d`. Le vecteur `v` est considéré comme statique.
 	 */
 	collision.segmentsCollide = function (u, v, d) {
-		var ortho, collision, finalaxis, p, time, tmin, umin, umax, vmin, vmax, w, segments, finalAxisIsU = false;
+		var vec = pm.vector,
+			geom = pm.geom;
 		
+		var i, ps, qs, rs, time, collision, u_n, v_n, u_0, v_0, u_proj, v_proj, d_proj;
+		
+		time = 2;
 		collision = new pm.collision.NoCollision();
-		segments = [];
-
-		// Calcul le vecteur orthogonal `ortho` par rapport au segment `u`
-		w = pm.vector.subtract(u[1], u[0]);
-		ortho = pm.vector.orthogonalVector(w);
 		
-		// Projette le segment `u` sur son vecteur orthogonal
-		pm.vector.minMaxProjection([u[0], u[1]], ortho, function(min, max) {
-			umin = min;
-			umax = max;
-		});
+		u_n = vec.orthogonalVector(u);
 		
-		if (umin != umax) {
-			console.log("(umin,umax): "+([umin,umax]).toString, "u: "+u.toString(), "ortho: "+ortho.toString());
-		}
+		u_0 = vec.projectOnto(u[0], u_n);
 		
-		// Projette le segment `v` sur le vecteur orthogonal
-		pm.vector.minMaxProjection([v[0], v[1]], ortho, function(min, max) {
-			vmin = min;
-			vmax = max;
-		});
+		v_proj = vec.projectSegmentOnto(v, u_n);
 		
-		// On vérifie d'abord que les intervalles projettés de `u` et de `v` ne s'intersectent
-		if ( ! pm.geom.intervalsIntersectStrict([umin, umax], [vmin, vmax]) ) {
+		i = u_n[0] ? 0: 1;
+		
+		// Vérifier si l'axe de `u` est séparateur
+		
+		if (! geom.intervalsIntersectStrict(
+			[u_0, u_0], 
+			getCoordinate(v_proj, i)) {
 			
-			w = pm.vector.projectOnto(d, ortho);
-			if (ortho[0] != 0) {
-				p = p[0];
-			} else {
-				p = p[1];
-			}
-			
-			if ( p == 0 || // Pas de mouvement
-				( p < 0 && umin < vmax && umin + p > vmax ) || 
-				( p < 0 && umax < vmin ) || 
-				( p > 0 && umax < vmin && umax + p < vmin ) || 
-				( p > 0 && umin > vmax ) ) {
-
-				// console.log("pas de collision u dynamique", umin, umax, vmin, vmax, p, axis);
-
-				return new pm.collision.NoCollision();
-
-			} else {
-
-				time = p < 0 ? (vmax - umin) / p : (vmin - umax) / p;
-
-				// console.log("collision u dynamique", umin, umax, vmin, vmax, p, time, axis);
+			// L'axe de `u` n'est pas séparateur
 				
-				if ( ! collision.collide || time < collision.time ) {
-
-					collision = new pm.collision.Collision();
-					collision.time = time;
-					collision.axis = ortho;
-					collision.velocity = v;
-
-				}
-
-			}
-		
-		} else {
-
-			// console.log("collision u statique", umin, umax, vmin, vmax, axis);
-			//if (umin == vmin || umin == vmax) {
-			if (Math.abs(umin - vmin) < 0.0001 || Math.abs(umin - vmax) < 0.0001) {
-				finalaxis = ortho;
-			} 
-
-		}
-		
-		// Calcul le vecteur orthogonal `ortho` par rapport au segment `v`
-		w = pm.vector.subtract(v[1], v[0]);
-		ortho = pm.vector.orthogonalVector(w);
-		
-		// Projette le segment `v` sur son vecteur orthogonal
-		pm.vector.minMaxProjection([u[0], u[1]], ortho, function(min, max) {
-			umin = min;
-			umax = max;
-		});
-		
-		// Projette le segment `u` sur le vecteur orthogonal
-		pm.vector.minMaxProjection([v[0], v[1]], ortho, function(min, max) {
-			vmin = min;
-			vmax = max;
-		});
-		
-		if ( ! pm.geom.intervalsIntersectStrict([umin, umax], [vmin, vmax]) ) {
-			// Pas de collision statique
+			d_proj = vec.projectOnto(d, u_n);
 			
-			w = pm.vector.projectOnto(d, ortho);
-			if (ortho[0] != 0) {
-				p = p[0];
-			} else {
-				p = p[1];
-			}
-
-			if ( p == 0 || 
-				( p < 0 && umin < vmax && umin + p > vmax ) || 
-				( p < 0 && umin > vmax && umin + p > vmax ) || 
-				( p < 0 && umax < vmin ) || 
-				( p > 0 && umax < vmin && umax + p < vmin ) || 
-				( p > 0 && umin > vmax ) ) {
-
-				// console.log("pas de collision v dynamique", umin, umax, vmin, vmax, p, axis);
-
-				return new pm.collision.NoCollision();;
-
-			} else {
-
-				time = p < 0 ? (vmax - umin) / p : (vmin - umax) / p;
-
-				// console.log("collision v dynamique", umin, umax, vmin, vmax, p, time, axis);
+			u_proj = [u_0, vec.add(u_0, d_proj)];
+			
+			if (geom.intervalsIntersectStrict(
+					getCoordinate(u_proj, i),
+					getCoordinate(v_proj, i)
+					) {
 				
-				if ( ! collision.collide || time < collision.time ) {
-
-					collision = new pm.collision.Collision();
-					collision.time = time;
-					collision.axis = ortho;
-					collision.velocity = v;
-
+				// Collision potentielle, on vérifie si l'axe de `v` est séparateur
+				
+				v_n = vec.orthogonalVector(v);
+		
+				v_0 = vec.projectOnto(v[0], v_n);
+		
+				u_proj = vec.projectSegmentOnto(u, v_n);
+				
+				i = v_n[0] ? 0: 1;
+		
+				if (! geom.intervalsIntersectStrict(
+					[v_0, v_0], 
+					getCoordinate(u_proj, i)) {
+				
+					d_proj = vec.projectOnto(d, v_n);
+					
+					v_proj = [v_0, vec.add(v_0, d_proj)];
+			
+					if (geom.intervalsIntersectStrict(
+							getCoordinate(u_proj, i),
+							getCoordinate(v_proj, i)
+							) {
+						
+						// Collision
+						
+						return pm.collision.Collision.create(u, v, d, 0, );
+						
+					} else {
+						
+						// L'axe de `v` est séparateur alors il n'y a pas de collision
+						
+						return new pm.collision.NoCollision();
+						
+					}
+				
+				} else {
+					
+					// L'axe de `u` est séparateur alors il n'y a pas de collision
+						
+					return new pm.collision.NoCollision();
+					
 				}
-
+				
 			}
-
+			
 		} else {
-
-			// console.log("collision v statique", umin, umax, vmin, vmax, axis);
-
-			//if ( vmin == umin || vmin == umax ) {
-			if (Math.abs(vmin - umin) < 0.0001 || Math.abs(vmin - umax) < 0.0001) {
-			//if (!finalAxisIsU) {
-				finalaxis = ortho;
+			
+			// Vérifier si les segments sont en collision au temps `t` = 0
+				
+			v_n = vec.orthogonalVector(v);
+	
+			v_0 = vec.projectOnto(v[0], v_n);
+	
+			u_proj = vec.projectSegmentOnto(u, v_n);
+			
+			i = v_n[0] ? 0: 1;
+		
+			if (geom.intervalsIntersectStrict(
+				[v_0, v_0], 
+				getCoordinate(u_proj, i)) {
+				
+				// Pas d'axe séparateur il y a collision au temps `t` = 0
+				
 			}
-
-		}
-
-		// Calcul le vecteur orthogonal `ortho` par rapport au vecteur de déplacement `d`
-		ortho = pm.vector.orthogonalVector(d);
-		
-		// Projette le segment `v` sur le vecteur orthogonal
-		pm.vector.minMaxProjection([u[0], u[1]], ortho, function(min, max) {
-			umin = min;
-			umax = max;
-		});
-		
-		// Projette le segment `u` sur le vecteur orthogonal
-		pm.vector.minMaxProjection([v[0], v[1]], ortho, function(min, max) {
-			vmin = min;
-			vmax = max;
-		});
-
-		if ( ! pm.geom.intervalsIntersectStrict([umin, umax], [vmin, vmax]) ) {
-
-			return new pm.collision.NoCollision();
-
-		} else {
-
-
+			
 		}
 		
-		// Si l'algorithme se rend jusqu'ici, c'est qu'il y a eu collision
+		v_n = vec.orthogonalVector(v);
 		
 		/*
-		if ( ! collision.collide ) {
+		ps = [];
+		qs = [];
+		rs = [];
+		
+		ps.push(v);
+		ps.push(v);
+		ps.push(u);
+		ps.push(u);
+		
+		qs.push(d);
+		qs.push(d);
+		qs.push(pm.vector.scale(-1, d));
+		qs.push(qs[2]);
+		
+		rs.push(u[0]);
+		rs.push(u[1]);
+		rs.push(v[0]);
+		rs.push(v[1]);
+		
+		for (i = 0; i < 4; i++) {
 			
-			if (!finalaxis) {
-				// Quel axe prendre ? le plus près ?
-				// En attendant on prend l'axe orthogonal à v
-				segment = pm.vector.subtract(v[1], v[0]);
-				finalaxis = pm.vector.orthogonalVector(segment);
-			}
+			p = pm.vector.subtract(ps[i][1], ps[i][0]);
+			q = qs[i];
+			r = pm.vector.subtract(rs[i], ps[i][0]);
+			
+			(function (s,t) {
+				
+				console.log(s,t);
+					
+				window.g
+					.setFillAndStrokeStyle("#0C9")
+					.fillCenteredRect(pm.vector.add(qs[i], pm.vector.scale(s,q)), 7);
+				
+				if (
+					0 <= s && s <= 1
+					&& s < time) {
 
-			collision = new pm.collision.Collision();
-			collision.time = 0;
-			collision.axis = finalaxis;
-			collision.velocity = v;
-
+					collision = new pm.collision.Collision();
+					collision.time = s;
+					collision.axis = pm.vector.orthogonalVector(p);
+					collision.velocity = d;
+					
+				}
+			}).apply(null, solve(p, q, r));
 		}
 		*/
 		
-		// console.log("final", collision.time, collision.axis);
-
 		return collision;
+		
+		/*
+		w = pm.vector.subtract(u[1], u[0]);
+		u_n = pm.vector.orthogonalVector(w);
+		
+		coordinate = ortho[0] ? 0: 1;
+		map = function(s) {
+			return [s[0][coordinate], s[1][coordinate]];
+		}
+		
+		u_0 = pm.vector.projectOnto(u[0], u_n);
+		u_1 = pm.vector.add(u_0, pm.vector.projectOnto(d, u_n));
+		
+		u_proj = [u_0, u_1];
+		
+		v_0 = pm.vector.projectOnto(v[0], u_n);
+		v_1 = pm.vector.projectOnto(v[1], u_n);
+		
+		v_proj = [v_0, v_1];
+		
+		if ( segmentsOverlap( u_0, v_0, u_n ) ) {
+			
+			w = pm.vector.subtract(v[1], v[0]);
+			ortho = pm.vector.orthogonalVector(w);
+		
+			coordinate = ortho[0] ? 0: 1;
+			map = function(s) {
+				return [s[0][coordinate], s[1][coordinate]];
+			}
+			
+			u_0 = map(pm.geom.projectSegmentOnto(u, ortho)); 
+			
+			v_0 = map(pm.geom.projectSegmentOnto(v, ortho));
+		
+			if ( pm.geom.intervalsIntersectStrict( u_0, v_0 ) ) {
+			
+				// Collision au temps `t` = 0
+
+				collision = new pm.collision.Collision();
+				collision.time = 0;
+				collision.axis = pm.vector.scale(-1, pm.vector.orthogonalVector(pm.vector.subtract(v[1], v[0])));
+				collision.velocity = v;
+				
+				return collision;
+				
+			}
+			
+		} 
+			
+		w = pm.vector.projectOnto(d, ortho);
+		p = w[coordinate];
+		u_f = [u_0[0], u_0[0]+p];
+
+		if ( p == 0 || 
+			! pm.geom.intervalsIntersectStrict( u_f, v_0 ) ) {
+			// Pas de collision
+		
+			if (window.debug) {
+				console.log("No collision");
+			}
+			
+			return new pm.collision.NoCollision();
+
+		} else {
+			// Collision
+
+			time = p < 0 ? (v_0[1] - u_0[0]) / p : (v_0[0] - u_0[1]) / p;
+			
+			// La normale de collision dépend du type de collision: 2 segments, segment/point ou 2 points
+			
+			time * 
+
+			collision = new pm.collision.Collision();
+			collision.time = time;
+			collision.axis = pm.vector.scale(-1, pm.vector.orthogonalVector(pm.vector.subtract(v[1], v[0])));
+			collision.velocity = v;
+		
+			if (window.debug) {
+				console.log("Collision", collision);
+			}
+			
+			return collision;
+
+		}
+		*/
 		
 	};
  

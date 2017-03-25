@@ -48,7 +48,7 @@
 
 })(planetmars || {}, jQuery);
 
-function drawSegmentsCollisionInfo(segment1, segment2, v, collide, t, axis) {
+function drawSegmentsCollisionInfo(segment1, segment2, v, collision) {
 	var axislength, axisscale, closest1, g, 
 		intershape1, intershape2, interv1, interv2, intervertex1, 
 		intervertex2, o, orthoaxis, visible1, visible2;
@@ -69,6 +69,7 @@ function drawSegmentsCollisionInfo(segment1, segment2, v, collide, t, axis) {
 		.each(visible1, function (point) {
 			this.fillCenteredRect(point, 4);
 		})
+		.setFillAndStrokeStyle("#A60")
 		.strokePoints(visible2)
 		.each(visible2, function (point) {
 			this.fillCenteredRect(point, 4);
@@ -77,14 +78,15 @@ function drawSegmentsCollisionInfo(segment1, segment2, v, collide, t, axis) {
 		.strokeLine(closest1, planetmars.vector.add(closest1, v))
 		.fillCenteredRect(planetmars.vector.add(closest1, v), 4)
 	
-	if (collide) {
-		interv1 = planetmars.vector.scale(t, v);
+	console.log(collision);
+	if (collision && collision.collide) {
+		interv1 = planetmars.vector.scale(collision.time, v);
 		intershape1 = planetmars.geom.translate(segment1, interv1);
 		intervertex1 = planetmars.vector.add(closest1, interv1);
 		
-		axislength = planetmars.vector.norm(axis);
+		axislength = planetmars.vector.norm(collision.axis);
 		axisscale = 96 / axislength;
-		orthoaxis = planetmars.vector.orthogonalVector(axis);
+		orthoaxis = planetmars.vector.orthogonalVector(collision.axis);
 		
 		interv2 = planetmars.vector.subtract(
 				planetmars.vector.projectOnto( v, orthoaxis ),
@@ -94,26 +96,26 @@ function drawSegmentsCollisionInfo(segment1, segment2, v, collide, t, axis) {
 		intervertex2 = planetmars.vector.add(intervertex1, interv2);
 		
 		g
-			.setFillAndStrokeStyle("#0C6")
-			.strokeShape(intershape1)
-			.setFillAndStrokeStyle("#09C")
-			.strokeShape(intershape2)
-			.lineWidth(2)
-			.setFillAndStrokeStyle("#0C6")
-			.strokeLine(closest1, intervertex1)
-			.fillCenteredRect(intervertex1, 6)
-			.setFillAndStrokeStyle("#09C")
-			.strokeLine(intervertex1, intervertex2)
-			.fillCenteredRect(intervertex2, 6);
+			//.setFillAndStrokeStyle("#0C6")
+			//.strokeShape(intershape1)
+			//.setFillAndStrokeStyle("#09C")
+			//.strokeShape(intershape2)
+			//.lineWidth(2)
+			//.setFillAndStrokeStyle("#0C6")
+			//.strokeLine(closest1, intervertex1)
+			//.fillCenteredRect(intervertex1, 6)
+			//.setFillAndStrokeStyle("#09C")
+			//.strokeLine(intervertex1, intervertex2)
+			//.fillCenteredRect(intervertex2, 6);
 	}
 	
 	g.restore();
 }
 
-function drawShapesCollisionInfo(shape1, shape2, v, collide, t, axis) {
+function drawShapesCollisionInfo(shape1, shape2, v, collision) {
 	var axislength, axisscale, closest1, g, 
 		intershape1, intershape2, interv1, interv2, intervertex1, 
-		intervertex2, o, orthoaxis, visible1, visible2;
+		intervertex2, o, orthoaxis, visible1, visible2, p;
 	
 	// console.log(collide);
 	
@@ -126,10 +128,10 @@ function drawShapesCollisionInfo(shape1, shape2, v, collide, t, axis) {
 	
 	g
 		.save()
-		.setFillAndStrokeStyle("#AAA")
+		.setFillAndStrokeStyle("#AAA") // grey
 		.strokeShape(shape1)
 		.strokeShape(shape2)
-		.setFillAndStrokeStyle("#C90")
+		.setFillAndStrokeStyle("#C90") // yellow
 		.strokePoints(visible1)
 		.each(visible1, function (point) {
 			this.fillCenteredRect(point, 4);
@@ -138,11 +140,18 @@ function drawShapesCollisionInfo(shape1, shape2, v, collide, t, axis) {
 		.each(visible2, function (point) {
 			this.fillCenteredRect(point, 4);
 		})
-		.setFillAndStrokeStyle("#9C0")
+		.setFillAndStrokeStyle("#9C0") // green
 		.strokeLine(closest1, planetmars.vector.add(closest1, v))
 		.fillCenteredRect(planetmars.vector.add(closest1, v), 4)
 	
-	if (collide) {
+	//if (collision.collide) {
+		
+		//p = planetmars.vector.add(closest1, planetmars.vector.scale(collision.time, v));
+		
+		//g
+		//	.setFillAndStrokeStyle("#09C")
+		//	.fillCenteredRect(p, 6);
+		/*
 		interv1 = planetmars.vector.scale(t, v);
 		intershape1 = planetmars.geom.translate(shape1, interv1);
 		intervertex1 = planetmars.vector.add(closest1, interv1);
@@ -158,8 +167,6 @@ function drawShapesCollisionInfo(shape1, shape2, v, collide, t, axis) {
 		intershape2 = planetmars.geom.translate(intershape1, interv2);
 		intervertex2 = planetmars.vector.add(intervertex1, interv2);
 		
-		console.log(JSON.stringify(intershape2));
-		
 		g
 			.setFillAndStrokeStyle("#0C6")
 			.strokeShape(intershape1)
@@ -172,7 +179,8 @@ function drawShapesCollisionInfo(shape1, shape2, v, collide, t, axis) {
 			.setFillAndStrokeStyle("#09C")
 			.strokeLine(intervertex1, intervertex2)
 			.fillCenteredRect(intervertex2, 6);
-	}
+		*/
+	//}
 	
 	g.restore();
 }
@@ -186,11 +194,11 @@ function testShapesCollision() {
 	v = [184, 10];
 	collision = planetmars.collision.polygonsCollideProjective(shape1, shape2, v);
 	
-	if (collision.collide) {
-		drawShapesCollisionInfo(shape1, shape2, v, collision.collide, collision.time, collision.axis);
-	} else {
-		drawShapesCollisionInfo(shape1, shape2, v, collision.collide);
-	}
+	//if (collision.collide) {
+	//	drawShapesCollisionInfo(shape1, shape2, v, collision.collide, collision.time, collision.axis);
+	//} else {
+		drawShapesCollisionInfo(shape1, shape2, v, collision);
+	//}
 }
 
 function testSATShapesCollision() {
@@ -315,11 +323,11 @@ function testSegmentsCollision(no) {
 	}
 	
 	collision = planetmars.collision.segmentsCollide(segment1, segment2, v);
-	if (collision.collide) {
-		drawSegmentsCollisionInfo(segment1, segment2, v, collision.collide, collision.time, collision.axis);
-	} else {
-		drawSegmentsCollisionInfo(segment1, segment2, v, collision.collide);
-	}
+	//if (collision.collide) {
+	//	drawSegmentsCollisionInfo(segment1, segment2, v, collision.collide, collision.time, collision.axis);
+	//} else {
+		drawSegmentsCollisionInfo(segment1, segment2, v, collision);
+	//}
 }
 
 function testShapesCollisionBug1() {
@@ -337,11 +345,11 @@ function testShapesCollisionBug1() {
 	
 	collision = planetmars.collision.polygonsCollideProjective(shape1, shape2, v);
 	
-	if (collision.collide) {
-		drawShapesCollisionInfo(shape1, shape2, v, collision.collide, collision.time, collision.axis);
-	} else {
-		drawShapesCollisionInfo(shape1, shape2, v, collision.collide);
-	}
+	//if (collision.collide) {
+		drawShapesCollisionInfo(shape1, shape2, v);
+	//} else {
+	//	drawShapesCollisionInfo(shape1, shape2, v, collision.collide);
+	//}
 }
 
 function testShapesCollisionBug2() {

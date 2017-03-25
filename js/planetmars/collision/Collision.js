@@ -10,6 +10,17 @@ var planetmars = (function(pm) {
  
 	pm.collision = pm.collision || {};
 	
+	Collision.create = function (shape1, shape2, velocity, time, axis) {
+		var collision = new pm.Collision();
+		collision.shape1 = shape1;
+		collision.shape2 = shape2;
+		collision.velocity = velocity;
+		collision.time = time;
+		collision.axis = axis;
+		
+		return collision;
+	}  
+	
 	pm.collision.Collision = Collision;
 	
 	return pm;
