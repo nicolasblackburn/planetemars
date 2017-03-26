@@ -72,7 +72,7 @@ var planetmars = (function(pm, undefined) {
 	};
 	* */
 
-	vector.minMaxProjection = function(points, v, fn) {
+	vector.minMaxProjection = function(points, v) {
 		var i, min, max, p;
 		
 		for (i = 0; i < points.length; i++) {
@@ -89,10 +89,6 @@ var planetmars = (function(pm, undefined) {
 					max = p;
 				}
 			}
-		}
-		
-		if ("function" == typeof fn) {
-			fn(min, max);
 		}
 		
 		return [min, max];

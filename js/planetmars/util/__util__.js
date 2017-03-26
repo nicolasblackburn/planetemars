@@ -18,7 +18,7 @@ var planetmars = (function(pm, $) {
 		return b;
 	};
 
-	util.floatEqual = function(a, b) {
+	util.floatLt = function(a, b, epsilon) {
 		//return a == b;
 		a = Math.abs(a);
 		b = Math.abs(b);
@@ -26,9 +26,25 @@ var planetmars = (function(pm, $) {
 		if (a == b) {
 			return true;
 		} else {
-			return d / (a + b) < 0.00000000001;
+			return d / (a + b) < epsilon;
 		}
 	};
+
+	util.floatEq = function(a, b, epsilon) {
+		//return a == b;
+		a = Math.abs(a);
+		b = Math.abs(b);
+		d = Math.abs(a - b);
+		if (a == b) {
+			return true;
+		} else {
+			return d < epsilon;
+		}
+	};
+	
+	util.leftApply = function(target, args, fn) {
+		return fn.apply(target, args);
+	}
 	
 	util.loadImages = function(images) {
 		return $.Deferred(function(deferred) {

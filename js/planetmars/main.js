@@ -78,7 +78,6 @@ function drawSegmentsCollisionInfo(segment1, segment2, v, collision) {
 		.strokeLine(closest1, planetmars.vector.add(closest1, v))
 		.fillCenteredRect(planetmars.vector.add(closest1, v), 4)
 	
-	console.log(collision);
 	if (collision && collision.collide) {
 		interv1 = planetmars.vector.scale(collision.time, v);
 		intershape1 = planetmars.geom.translate(segment1, interv1);
@@ -100,13 +99,13 @@ function drawSegmentsCollisionInfo(segment1, segment2, v, collision) {
 			//.strokeShape(intershape1)
 			//.setFillAndStrokeStyle("#09C")
 			//.strokeShape(intershape2)
-			//.lineWidth(2)
-			//.setFillAndStrokeStyle("#0C6")
-			//.strokeLine(closest1, intervertex1)
-			//.fillCenteredRect(intervertex1, 6)
-			//.setFillAndStrokeStyle("#09C")
-			//.strokeLine(intervertex1, intervertex2)
-			//.fillCenteredRect(intervertex2, 6);
+			.lineWidth(2)
+			.setFillAndStrokeStyle("#0C6")
+			.strokeLine(closest1, intervertex1)
+			.fillCenteredRect(intervertex1, 6)
+			.setFillAndStrokeStyle("#09C")
+			.strokeLine(intervertex1, intervertex2)
+			.fillCenteredRect(intervertex2, 6);
 	}
 	
 	g.restore();
@@ -144,21 +143,21 @@ function drawShapesCollisionInfo(shape1, shape2, v, collision) {
 		.strokeLine(closest1, planetmars.vector.add(closest1, v))
 		.fillCenteredRect(planetmars.vector.add(closest1, v), 4)
 	
-	//if (collision.collide) {
+	if (collision && collision.collide) {
 		
 		//p = planetmars.vector.add(closest1, planetmars.vector.scale(collision.time, v));
 		
 		//g
 		//	.setFillAndStrokeStyle("#09C")
 		//	.fillCenteredRect(p, 6);
-		/*
-		interv1 = planetmars.vector.scale(t, v);
+		
+		interv1 = planetmars.vector.scale(collision.time, v);
 		intershape1 = planetmars.geom.translate(shape1, interv1);
 		intervertex1 = planetmars.vector.add(closest1, interv1);
 		
-		axislength = planetmars.vector.norm(axis);
+		axislength = planetmars.vector.norm(collision.axis);
 		axisscale = 96 / axislength;
-		orthoaxis = planetmars.vector.orthogonalVector(axis);
+		orthoaxis = planetmars.vector.orthogonalVector(collision.axis);
 		
 		interv2 = planetmars.vector.subtract(
 			planetmars.vector.projectOnto( v, orthoaxis ),
@@ -168,10 +167,10 @@ function drawShapesCollisionInfo(shape1, shape2, v, collision) {
 		intervertex2 = planetmars.vector.add(intervertex1, interv2);
 		
 		g
-			.setFillAndStrokeStyle("#0C6")
-			.strokeShape(intershape1)
-			.setFillAndStrokeStyle("#09C")
-			.strokeShape(intershape2)
+			//.setFillAndStrokeStyle("#0C6")
+			//.strokeShape(intershape1)
+			//.setFillAndStrokeStyle("#09C")
+			//.strokeShape(intershape2)
 			.lineWidth(2)
 			.setFillAndStrokeStyle("#0C6")
 			.strokeLine(closest1, intervertex1)
@@ -179,8 +178,7 @@ function drawShapesCollisionInfo(shape1, shape2, v, collision) {
 			.setFillAndStrokeStyle("#09C")
 			.strokeLine(intervertex1, intervertex2)
 			.fillCenteredRect(intervertex2, 6);
-		*/
-	//}
+	}
 	
 	g.restore();
 }
@@ -193,12 +191,9 @@ function testShapesCollision() {
 	shape2 = planetmars.geom.regularPolygon(7, 32, [192,132]);
 	v = [184, 10];
 	collision = planetmars.collision.polygonsCollideProjective(shape1, shape2, v);
+	console.log(collision);
 	
-	//if (collision.collide) {
-	//	drawShapesCollisionInfo(shape1, shape2, v, collision.collide, collision.time, collision.axis);
-	//} else {
-		drawShapesCollisionInfo(shape1, shape2, v, collision);
-	//}
+	drawShapesCollisionInfo(shape1, shape2, v, collision);
 }
 
 function testSATShapesCollision() {
@@ -222,11 +217,8 @@ function testSATShapesCollision() {
 		
 	} );
 	
-	if (collision.collide) {
-		drawShapesCollisionInfo(shape1, shape2, v, collision.collide, collision.time, collision.axis);
-	} else {
-		drawShapesCollisionInfo(shape1, shape2, v, collision.collide);
-	}
+	console.log(collision);
+	drawShapesCollisionInfo(shape1, shape2, v, collision);
 }
 
 function testSegmentsCollision(no) {
@@ -323,11 +315,10 @@ function testSegmentsCollision(no) {
 	}
 	
 	collision = planetmars.collision.segmentsCollide(segment1, segment2, v);
-	//if (collision.collide) {
-	//	drawSegmentsCollisionInfo(segment1, segment2, v, collision.collide, collision.time, collision.axis);
-	//} else {
-		drawSegmentsCollisionInfo(segment1, segment2, v, collision);
-	//}
+	
+	console.log(collision);
+	drawSegmentsCollisionInfo(segment1, segment2, v, collision);
+		
 }
 
 function testShapesCollisionBug1() {
@@ -341,15 +332,10 @@ function testShapesCollisionBug1() {
 	
 	v = [0, -48];
 	
-	collision = new planetmars.collision.NoCollision();
-	
 	collision = planetmars.collision.polygonsCollideProjective(shape1, shape2, v);
 	
-	//if (collision.collide) {
-		drawShapesCollisionInfo(shape1, shape2, v);
-	//} else {
-	//	drawShapesCollisionInfo(shape1, shape2, v, collision.collide);
-	//}
+	console.log(collision);
+	drawShapesCollisionInfo(shape1, shape2, v, collision);
 }
 
 function testShapesCollisionBug2() {
@@ -363,17 +349,11 @@ function testShapesCollisionBug2() {
 	
 	v = [-6, 0];
 	
-	collision = new planetmars.collision.NoCollision();
-	
 	collision = planetmars.collision.polygonsCollideSAT(shape1, shape2, v);
+	console.log(collision);
 	
-	if (collision.collide) {
-	  console.log("collide");
-		drawShapesCollisionInfo(shape1, shape2, v, collision.collide, collision.time, collision.axis);
-	} else {
-	  console.log("don't collide");
-		drawShapesCollisionInfo(shape1, shape2, v, collision.collide);
-	}
+	drawShapesCollisionInfo(shape1, shape2, v, collision);
+	
 }
 
 function testShapesCollisionBug3() {
@@ -390,14 +370,9 @@ function testShapesCollisionBug3() {
 	collision = new planetmars.collision.NoCollision();
 	
 	collision = planetmars.collision.segmentsCollide([segment1[0], segment1[1]], [segment2[0], segment2[1]], v);
+	console.log(collision);
 	
-	if (collision.collide) {
-	  console.log("collide", collision);
-		//drawShapesCollisionInfo(shape1, shape2, v, collision.collide, collision.time, collision.axis);
-	} else {
-	  console.log("don't collide", collision);
-		//drawShapesCollisionInfo(shape1, shape2, v, collision.collide);
-	}
+	drawShapesCollisionInfo(shape1, shape2, v, collision);
 }
 
 function testShapesCollision2() {
@@ -413,12 +388,9 @@ function testShapesCollision2() {
 	collision = new planetmars.collision.NoCollision();
 	
 	collision = planetmars.collision.polygonsCollideProjective(shape1, shape2, v);
+	console.log(collision);
 	
-	if (collision.collide) {
-		drawShapesCollisionInfo(shape1, shape2, v, collision.collide, collision.time, collision.axis);
-	} else {
-		drawShapesCollisionInfo(shape1, shape2, v, collision.collide);
-	}
+	drawShapesCollisionInfo(shape1, shape2, v, collision);
 }
 
 function testShapesCollision3() {
@@ -430,14 +402,9 @@ function testShapesCollision3() {
 	collision = new planetmars.collision.NoCollision();
 	
 	collision = planetmars.collision.polygonsCollideProjective(colltest.shape1, colltest.shape2, colltest.velocity);
+	console.log(collision);
 	
-	if (collision.collide) {
-		console.log("collide");
-		drawShapesCollisionInfo(collision.shape1, collision.shape2, collision.velocity, collision.collide, collision.time, collision.axis);
-	} else {
-		console.log("don't collide");
-		drawShapesCollisionInfo(collision.shape1, collision.shape2, collision.velocity, collision.collide);
-	}
+	drawShapesCollisionInfo(collision.shape1, collision.shape2, collision.velocity, collision);
 }
 
 function testShapesCollision4() {
@@ -449,14 +416,9 @@ function testShapesCollision4() {
 	collision = new planetmars.collision.NoCollision();
 	
 	collision = planetmars.collision.polygonsCollideProjective(colltest.shape1, colltest.shape2, colltest.velocity);
+	console.log(collision);
 	
-	if (collision.collide) {
-		console.log("collide");
-		drawShapesCollisionInfo(collision.shape1, collision.shape2, collision.velocity, collision.collide, collision.time, collision.axis);
-	} else {
-		console.log("don't collide");
-		drawShapesCollisionInfo(collision.shape1, collision.shape2, collision.velocity, collision.collide);
-	}
+	drawShapesCollisionInfo(collision.shape1, collision.shape2, collision.velocity, collision);
 }
 
 function testShapesCollision5() {
@@ -468,14 +430,9 @@ function testShapesCollision5() {
 	game.currentScreen.paint();
 	
 	collision = planetmars.collision.polygonsCollideProjective(collision_err.shape1, collision_err.shape2, collision_err.velocity);
+	console.log(collision);
 	
-	if (collision.collide) {
-		console.log("collide");
-		drawShapesCollisionInfo(collision.shape1, collision.shape2, collision.velocity, collision.collide, collision.time, collision.axis);
-	} else {
-		console.log("don't collide");
-		drawShapesCollisionInfo(collision.shape1, collision.shape2, collision.velocity, collision.collide);
-	}
+	drawShapesCollisionInfo(collision.shape1, collision.shape2, collision.velocity, collision);
 }
 			
 function setPosition(x, y, vx, vy) {

@@ -115,29 +115,60 @@ var planetmars = (function(pm) {
 		}
 	};
 
-	geom.intervalsIntersectStrict = function (inter1, inter2) {
-		var umin, umax, vmin, vmax;
+	geom.intervalsIntersectStrict = function (u, v) {
+		var u_0, u_1, v_0, v_1;
 		
-		umin = inter1[0];
-		umax = inter1[1];
+		u_0 = u[0];
+		u_1 = u[1];
+		v_0 = v[0];
+		v_1 = v[1];
 		
-		if (umin > umax) {
-			umin = inter1[1];
-			umax = inter1[0];
+		if (u_1 < u_0) {
+			u_0 = u[1];
+			u_1 = u[0];
 		}
 		
-		vmin = inter2[0];
-		vmax = inter2[1];
-		
-		if (vmin > vmax) {
-			vmin = inter2[1];
-			vmax = inter2[0];
+		if (v_1 < v_0) {
+			v_0 = v[1];
+			v_1 = v[0];
 		}
 		
-		if ( ( umin <= vmin && vmin < umax ) ||
-			( umin <= vmin && vmax <= umax ) ||
-			( vmin <= umin && umin < vmax ) ||
-			( vmin <= umin && umax <= vmax ) ) {
+		if ( ( u_0 <= v_0 && v_0 < u_1 ) ||
+			( u_0 <= v_0 && v_1 <= u_1 ) ||
+			( v_0 <= u_0 && u_0 < v_1 ) ||
+			( v_0 <= u_0 && u_1 <= v_1 ) ) {
+			
+			return true;
+			
+		} else {
+			
+			return false;
+			
+		}
+	};
+
+	geom.floatIntervalsIntersectStrict = function (u, v, epsilon) {
+		var u_0, u_1, v_0, v_1;
+		
+		u_0 = u[0];
+		u_1 = u[1];
+		v_0 = v[0];
+		v_1 = v[1];
+		
+		if (u_1 < u_0) {
+			u_0 = u[1];
+			u_1 = u[0];
+		}
+		
+		if (v_1 < v_0) {
+			v_0 = v[1];
+			v_1 = v[0];
+		}
+		
+		if ( ( u_0 + epsilon <= v_0 && v_0 + epsilon < u_1 ) ||
+			( u_0 + epsilon <= v_0 && v_1 - epsilon <= u_1 ) ||
+			( v_0 + epsilon <= u_0 && u_0 - epsilon < v_1 ) ||
+			( v_0 + epsilon <= u_0 && u_1 - epsilon <= v_1 ) ) {
 			
 			return true;
 			
