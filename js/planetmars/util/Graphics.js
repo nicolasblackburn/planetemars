@@ -19,6 +19,14 @@ var planetmars = (function (pm, undefined) {
 		return this;
 	};
 	
+	Graphics.prototype.fillCenteredCircle = function(p, r) {
+		this.g.beginPath();
+		this.g.arc(p[0], p[1], r, 0, 2*Math.PI);
+		this.g.fill();
+		
+		return this;
+	};
+	
 	Graphics.prototype.fillShape = function(shape) {
 		// « shape » : une liste de points
 		
@@ -69,7 +77,7 @@ var planetmars = (function (pm, undefined) {
 		return this;
 	};
 	
-	Graphics.prototype.setFillAndStrokeStyle = function(style) {
+	Graphics.prototype.setStyle = function(style) {
 		this.g.strokeStyle = style;
 		this.g.fillStyle = style;
 		

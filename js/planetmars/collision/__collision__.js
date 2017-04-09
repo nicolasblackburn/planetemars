@@ -21,7 +21,7 @@ var planetmars = (function(pm) {
 			
 			for (j = 1; j < visible2.length; j++) {
 				
-				collision = pm.collision.segmentsCollide([visible1[i], visible1[i - 1]], [visible2[j], visible2[j - 1]], velocity);
+				collision = pm.collision._segmentsCollide([visible1[i], visible1[i - 1]], [visible2[j], visible2[j - 1]], velocity);
 				if (collision.collide && ( ! firstcollision.collide || collision.time < firstcollision.time ) ) {
 					collision.shape1 = shape1;
 					collision.shape2 = shape2;
@@ -162,10 +162,104 @@ var planetmars = (function(pm) {
 	};
 	
 	/**
+	 * u: segment 1
+	 * v: segment 2
+	 */
+	collision.pointSegmentCollide = function(p, v, dr) {
+		var vec = planetmars.vector;
+		var a, b, c, d, x, y, D, s, t, u;
+		
+		// Résoudre le système u[0] + s*(u[1] - u[0]) = v[0] + t*(v[1]- v[0])
+		
+		// Précalculs
+		u = [p, vec.add(p, dr)];
+		a = u[1][0] - u[0][0];
+		b = v[0][0] - v[1][0];
+		c = u[1][1] - u[0][1];
+		d = v[0][1] - v[1][1];
+		x = v[0][0] - u[0][0];
+		y = v[0][1] - u[0][1];
+		
+		// Déterminant
+		D = a*d - b*c;
+		
+		// Solution du système (fois le déterminant)
+		s = d*x - b*y;
+		t = a*y - c*x;
+		
+		// Solution des contraintes
+		if (0 <= s && s <= D && 0 <= t && t <= D) {
+			// Collision!
+			return [true, s/D, t/D];
+			
+		} else {
+			// Pas de collision
+			return [false, s/D, t/D];
+		}
+	}
+	
+	// segmentsCollide
+	collision.segmentsCollide = function(u, v, dr) {
+		var vec = planetmars.vector;
+
+		var 
+			r0 = collision.pointSegmentCollide(u[0], v, dr),
+			r1 = collision.pointSegmentCollide(u[1], v, dr),
+			ta = r0[1],
+			sa = r0[2],
+			tb = r1[1],
+			sb = r1[2],
+			ds = sa - sb,
+			dt = ta - tb,
+			s0 = Math.max(0, sa),
+			s1 = Math.min(1, sb),
+			t0,
+			t1,
+			swap;
+
+		function t(s) {
+			return (s - sb)/ds*ta - (s - sa)/ds*tb;
+		}
+
+		function s(t) {
+			return (t - tb)/dt*sa - (t - ta)/dt*sb;
+		}
+			
+		if (s0 <= s1) {
+			t0 = t(s0);
+			t1 = t(s1);
+			
+			if (t0 > t1) {
+				swap = t1;
+				t1 = t0;
+				t0 = swap;
+			}
+			
+			t0 = Math.max(0, t0);
+			t1 = Math.min(1, t1);
+			
+			if (t0 <= t1) {
+				// Collision !
+				s0 = s(t0);
+				
+				return [true, t0, s0];
+				
+			} else {
+				// Pas de collision
+				return [false, 0, 0];
+			}
+			
+		} else {
+			// Pas de collision
+			return [false, 0, 0];
+		}
+	} 
+	
+	/**
 	 * Cette fonction détecte une collision continue entre deux segments dont l'un est en mouvement et l'autre statique.
 	 * Elle prend 2 segments `u` et `v` en paramètres, plus un vecteur de déplacement `d`. Le vecteur `v` est considéré comme statique.
 	 */
-	collision.segmentsCollide = function (u, v, d) {
+	collision._segmentsCollide = function (u, v, d) {
 		var collision, u_n, v_n, d_n, w, u_a, u_b, v_a, v_b, w, p, t, norm;
 		
 		collision = new pm.collision.NoCollision();

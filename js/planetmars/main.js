@@ -48,6 +48,110 @@
 
 })(planetmars || {}, jQuery);
 
+var vec = planetmars.vector,
+	collide = planetmars.collision.segmentsCollide,
+	collide2 = planetmars.collision.movingSegmentsCollide;
+
+var 
+	A0 = vec.add([0,30],[300,300]),
+	B0 = vec.add([20,0],[300,300]),
+	V = [50,-10],
+	A1 = vec.add(vec.subtract(vec.add(A0,V),[300,300]),[300,300]),
+	B1 = vec.add(vec.subtract(vec.add(B0,V),[300,300]),[300,300]),
+	C0 = vec.add([30,50],[300,300]),
+	C1 = vec.add([30,-20],[300,300]),
+	blue = "#09C",
+	green = "#096",
+	white = "#9CF",
+	R0 = collide([A0, A1], [C0, C1]),
+	R1 = collide([B0, B1], [C0, C1]),
+	tA = R0[1]/R0[3],
+	sA = R0[2]/R0[3],
+	tB = R1[1]/R1[3],
+	sB = R1[2]/R1[3],
+	sA_minus_sB = sA - sB,
+	tA_minus_tB = tA - tB,
+	S0 = Math.max(0, sA),
+	S1 = Math.min(1, sB),
+	T0,
+	T1,
+	w;
+	
+function show() {
+	if (S0 > S1) {
+		console.log("No collision");
+	} else {
+		T0 = t(S0);
+		T1 = t(S1);
+		
+		if (T0 > T1) {
+			w = T1;
+			T1 = T0;
+			T0 = w;
+		}
+		
+		T0 = Math.max(0, T0);
+		T1 = Math.min(1, T1);
+		
+		S0 = s(T0);
+		S1 = s(T1);
+		
+		if (T0 > T1) {
+			console.log("No collision");
+		} else {
+			console.log("Collide!");
+		}
+	}
+
+	g
+		.setStyle("#FFF")
+		.strokeLine(A0,B0)
+		.strokeLine(A1,B1)
+		.setStyle("#9CF")
+		.strokeLine(C0,C1);
+	
+	var 
+		dA = vec.subtract(A1,A0),
+		P0 = vec.add(C0, vec.scale(S0, vec.subtract(C1,C0))),
+		P1 = vec.add(C0, vec.scale(S1, vec.subtract(C1,C0))),
+		//P2 = vec.add(C0, vec.scale(s(tB), vec.subtract(C1,C0))),
+		//P3 = vec.add(C0, vec.subtract(C1,C0)),
+		//P0 = vec.add(C0),
+		//P1 = vec.add(C0, vec.scale(s(tA), vec.subtract(C1,C0))),
+		//P2 = vec.add(C0, vec.scale(s(tB), vec.subtract(C1,C0))),
+		//P3 = vec.add(C0, vec.subtract(C1,C0)),
+		//Q0 = vec.add(P0, vec.scale(-t(0), dA)),
+		//Q1 = vec.add(P1, vec.scale(-t(sA), dA)),
+		//Q2 = vec.add(P2, vec.scale(-t(sB), dA)),
+		//Q3 = vec.add(P3, vec.scale(-t(1), dA)),
+		Q0 = vec.add(P0, vec.scale(-T0, dA)),
+		Q1 = vec.add(P1, vec.scale(-T1, dA)),
+		H0 = vec.add(C0, vec.scale(S0, vec.subtract(C1,C0))),
+		H1 = vec.add(H0,  vec.scale(-T0, dA));
+		//Q2 = vec.add(P2, vec.scale(-t(sB), dA)),
+		//Q3 = vec.add(P3, vec.scale(-t(1), dA));
+	
+	g
+		.setStyle("#59F")
+		.strokeLine(H0,H1)
+		//.strokeLine(P1,Q1)
+		//.strokeLine(P2,Q2)
+		//.strokeLine(P3,Q3)
+		.setStyle("#6F3")
+		.fillCenteredCircle(H0, 3);
+		//.fillCenteredCircle(P1, 3);
+		//.fillCenteredCircle(P2, 3)
+		//.fillCenteredCircle(P3, 3);
+}
+
+function t(s) {
+	return (s - sB)/sA_minus_sB*tA - (s - sA)/sA_minus_sB*tB;
+}
+
+function s(t) {
+	return (t - tB)/tA_minus_tB*sA - (t - tA)/tA_minus_tB*sB;
+}
+
 function drawSegmentsCollisionInfo(segment1, segment2, v, collision) {
 	var axislength, axisscale, closest1, g, 
 		intershape1, intershape2, interv1, interv2, intervertex1, 
@@ -64,19 +168,19 @@ function drawSegmentsCollisionInfo(segment1, segment2, v, collision) {
 	
 	g
 		.save()
-		.setFillAndStrokeStyle("#C90")
+		.setStyle("#C90")
 		.strokePoints(visible1)
 		.each(visible1, function (point) {
 			this.fillCenteredRect(point, 4);
 		})
-		.setFillAndStrokeStyle("#A60")
+		.setStyle("#A60")
 		.strokePoints(visible2)
 		.each(visible2, function (point) {
 			this.fillCenteredRect(point, 4);
 		})
-		.setFillAndStrokeStyle("#9C0")
+		.setStyle("#9C0")
 		.strokeLine(closest1, planetmars.vector.add(closest1, v))
-		.fillCenteredRect(planetmars.vector.add(closest1, v), 4)
+		.fillCenteredCircle(planetmars.vector.add(closest1, v), 3)
 	
 	if (collision && collision.collide) {
 		interv1 = planetmars.vector.scale(collision.time, v);
@@ -95,17 +199,17 @@ function drawSegmentsCollisionInfo(segment1, segment2, v, collision) {
 		intervertex2 = planetmars.vector.add(intervertex1, interv2);
 		
 		g
-			//.setFillAndStrokeStyle("#0C6")
+			//.setStyle("#0C6")
 			//.strokeShape(intershape1)
-			//.setFillAndStrokeStyle("#09C")
+			//.setStyle("#09C")
 			//.strokeShape(intershape2)
 			.lineWidth(2)
-			.setFillAndStrokeStyle("#0C6")
+			.setStyle("#0C6")
 			.strokeLine(closest1, intervertex1)
-			.fillCenteredRect(intervertex1, 6)
-			.setFillAndStrokeStyle("#09C")
+			.fillCenteredCircle(intervertex1, 3)
+			.setStyle("#09C")
 			.strokeLine(intervertex1, intervertex2)
-			.fillCenteredRect(intervertex2, 6);
+			.fillCenteredCircle(intervertex2, 3);
 	}
 	
 	g.restore();
@@ -127,10 +231,10 @@ function drawShapesCollisionInfo(shape1, shape2, v, collision) {
 	
 	g
 		.save()
-		.setFillAndStrokeStyle("#AAA") // grey
+		.setStyle("#AAA") // grey
 		.strokeShape(shape1)
 		.strokeShape(shape2)
-		.setFillAndStrokeStyle("#C90") // yellow
+		.setStyle("#C90") // yellow
 		.strokePoints(visible1)
 		.each(visible1, function (point) {
 			this.fillCenteredRect(point, 4);
@@ -139,7 +243,7 @@ function drawShapesCollisionInfo(shape1, shape2, v, collision) {
 		.each(visible2, function (point) {
 			this.fillCenteredRect(point, 4);
 		})
-		.setFillAndStrokeStyle("#9C0") // green
+		.setStyle("#9C0") // green
 		.strokeLine(closest1, planetmars.vector.add(closest1, v))
 		.fillCenteredRect(planetmars.vector.add(closest1, v), 4)
 	
@@ -148,7 +252,7 @@ function drawShapesCollisionInfo(shape1, shape2, v, collision) {
 		//p = planetmars.vector.add(closest1, planetmars.vector.scale(collision.time, v));
 		
 		//g
-		//	.setFillAndStrokeStyle("#09C")
+		//	.setStyle("#09C")
 		//	.fillCenteredRect(p, 6);
 		
 		interv1 = planetmars.vector.scale(collision.time, v);
@@ -167,15 +271,15 @@ function drawShapesCollisionInfo(shape1, shape2, v, collision) {
 		intervertex2 = planetmars.vector.add(intervertex1, interv2);
 		
 		g
-			//.setFillAndStrokeStyle("#0C6")
+			//.setStyle("#0C6")
 			//.strokeShape(intershape1)
-			//.setFillAndStrokeStyle("#09C")
+			//.setStyle("#09C")
 			//.strokeShape(intershape2)
 			.lineWidth(2)
-			.setFillAndStrokeStyle("#0C6")
+			.setStyle("#0C6")
 			.strokeLine(closest1, intervertex1)
 			.fillCenteredRect(intervertex1, 6)
-			.setFillAndStrokeStyle("#09C")
+			.setStyle("#09C")
 			.strokeLine(intervertex1, intervertex2)
 			.fillCenteredRect(intervertex2, 6);
 	}
@@ -229,8 +333,8 @@ function testSegmentsCollision(no) {
 	
 	switch (no) {
 		case 1:
-			segment1 = planetmars.geom.translate([[85, 107],[109, 107]], [90,100]);
-			segment2 = planetmars.geom.translate([[96, 96], [96, 48]], [100,100]);
+			segment1 = planetmars.geom.translate([[85, 107],[109, 117]], [90,100]);
+			segment2 = planetmars.geom.translate([[90, 96], [96, 48]], [100,100]);
 			v = [48, -48];
 			break;
 
@@ -314,7 +418,7 @@ function testSegmentsCollision(no) {
 			break;
 	}
 	
-	collision = planetmars.collision.segmentsCollide(segment1, segment2, v);
+	collision = planetmars.collision._segmentsCollide(segment1, segment2, v);
 	
 	console.log(collision);
 	drawSegmentsCollisionInfo(segment1, segment2, v, collision);
@@ -369,7 +473,7 @@ function testShapesCollisionBug3() {
 	
 	collision = new planetmars.collision.NoCollision();
 	
-	collision = planetmars.collision.segmentsCollide([segment1[0], segment1[1]], [segment2[0], segment2[1]], v);
+	collision = planetmars.collision._segmentsCollide([segment1[0], segment1[1]], [segment2[0], segment2[1]], v);
 	console.log(collision);
 	
 	drawShapesCollisionInfo(shape1, shape2, v, collision);
