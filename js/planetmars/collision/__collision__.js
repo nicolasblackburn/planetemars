@@ -21,7 +21,7 @@ var planetmars = (function(pm) {
 			
 			for (j = 1; j < visible2.length; j++) {
 				
-				collision = pm.collision._segmentsCollide([visible1[i], visible1[i - 1]], [visible2[j], visible2[j - 1]], velocity);
+				collision = pm.collision.segmentsCollide([visible1[i], visible1[i - 1]], [visible2[j], visible2[j - 1]], velocity);
 				if (collision.collide && ( ! firstcollision.collide || collision.time < firstcollision.time ) ) {
 					collision.shape1 = shape1;
 					collision.shape2 = shape2;
@@ -162,61 +162,130 @@ var planetmars = (function(pm) {
 	};
 	
 	/**
-	 * u: segment 1
-	 * v: segment 2
+	 * Collision point à segment
+	 * Retourne un array [bool:collide,int:t,int:s,int:d] 
+	 * où collide = true s'il y a collision, false sinon
+	 *    t est le temps de la collision (relatif à d)
+	 *    s est le multiplicateur (relatif à d) pour trouver le point de collision le long du segment
+	 *    d est le ratio de comparaison
 	 */
-	collision.pointSegmentCollide = function(p, v, dr) {
-		var vec = planetmars.vector;
-		var a, b, c, d, x, y, D, s, t, u;
-		
-		// Résoudre le système u[0] + s*(u[1] - u[0]) = v[0] + t*(v[1]- v[0])
-		
-		// Précalculs
-		u = [p, vec.add(p, dr)];
-		a = u[1][0] - u[0][0];
-		b = v[0][0] - v[1][0];
-		c = u[1][1] - u[0][1];
-		d = v[0][1] - v[1][1];
-		x = v[0][0] - u[0][0];
-		y = v[0][1] - u[0][1];
-		
-		// Déterminant
-		D = a*d - b*c;
-		
-		// Solution du système (fois le déterminant)
-		s = d*x - b*y;
-		t = a*y - c*x;
-		
-		// Solution des contraintes
-		if (0 <= s && s <= D && 0 <= t && t <= D) {
-			// Collision!
-			return [true, s/D, t/D];
+	collision.pointSegmentCollide = function(point, segment, velocity) {
+		var a,b,c,d,det,s,t,p,q;
+
+		a = velocity[0];
+		b = segment[0][0]-segment[1][0];
+		c = velocity[1];
+		d = segment[0][1]-segment[1][1];
+
+		det = a*d - b*c;
+
+		p = segment[0][0] - point[0];
+		q = segment[0][1] - point[1];
+
+		if (det === 0) {
 			
+			// mouvement collinéaire
+
+			if (c*p === a*q) {
+
+				// mouvement confondu
+				d = velocity[0];
+
+				if (d !== 0) {
+
+					// On compare la coordonnée en `x` si elle n'est pas nulle
+					a = p;
+					b = segment[1][0] - point[0];
+
+				} else {
+
+					// Sinon on compare la coordonnée en `y`
+					d = velocity[1];
+					a = q;
+					b = segment[1][1] - point[1];
+
+				}
+
+				// Orientation négative
+				if (d < 0) {
+					d = -d
+					a = -a;
+					b = -b;
+				}
+
+				t = Math.min(a, b);
+
+				if ( 0 <= t && t <= d) {
+		
+					// Collision
+					return [true, t, 0, d];
+				
+				} else {
+
+					// Pas de collision
+					return [false, t, 0, d];
+
+				} 
+
+			} else {
+
+				// mouvement parallèle mais non-confondu avec la droite du segment, donc il n'y a pas de collision
+				return [false, 0, 0, det];
+
+			}
+		
 		} else {
-			// Pas de collision
-			return [false, s/D, t/D];
+			
+			// résoudre `s` et `t` avec la matrice inverse
+			// [[a c],[b d]]^(-1) = [[d -c],[-b a]]/det
+
+			t =  d*p - b*q;
+			s = -c*p + a*q;
+
+			// Orientation négative
+			if (det < 0) {
+				det = -det;
+				s = -s;
+				t = -t;
+			} 
+
+			if (0 <= s && s <= det && 0 <= t && t <= det) {
+			
+				// Collision
+				return [true, t, s, det];
+			
+			} else {
+
+				// Pas de collision
+				return [false, t, s, det];
+
+			} 
 		}
-	}
+	};
 	
 	// segmentsCollide
 	collision.segmentsCollide = function(u, v, dr) {
-		var vec = planetmars.vector;
-
 		var 
-			r0 = collision.pointSegmentCollide(u[0], v, dr),
-			r1 = collision.pointSegmentCollide(u[1], v, dr),
-			ta = r0[1],
-			sa = r0[2],
-			tb = r1[1],
-			sb = r1[2],
+			r0 = pm.collision.pointSegmentCollide(u[0], v, dr);
+			r1 = pm.collision.pointSegmentCollide(u[1], v, dr);
+		
+		if (! r0[0] && ! r1[0]) {
+			// Pas de collision
+			return new pm.collision.NoCollision();
+		}
+		
+		var
+			ta = r0[1]/r0[3],
+			sa = r0[2]/r0[3],
+			tb = r1[1]/r1[3],
+			sb = r1[2]/r1[3],
 			ds = sa - sb,
 			dt = ta - tb,
-			s0 = Math.max(0, sa),
-			s1 = Math.min(1, sb),
+			s0 = Math.max(0, Math.min(sa, sb)),
+			s1 = Math.min(1, Math.max(sa, sb)),
 			t0,
-			t1,
-			swap;
-
+			t1;
+		
 		function t(s) {
 			return (s - sb)/ds*ta - (s - sa)/ds*tb;
 		}
@@ -224,34 +293,34 @@ var planetmars = (function(pm) {
 		function s(t) {
 			return (t - tb)/dt*sa - (t - ta)/dt*sb;
 		}
-			
-		if (s0 <= s1) {
+		
+		if (s0 < s1) {
 			t0 = t(s0);
 			t1 = t(s1);
 			
-			if (t0 > t1) {
-				swap = t1;
-				t1 = t0;
-				t0 = swap;
-			}
-			
-			t0 = Math.max(0, t0);
-			t1 = Math.min(1, t1);
+			t0 = Math.max(0, Math.min(t0, t1));
+			t1 = Math.min(1, Math.max(t0, t1));
 			
 			if (t0 <= t1) {
 				// Collision !
 				s0 = s(t0);
 				
-				return [true, t0, s0];
+				if (0 < s0 && s0 < 1) {
+					return pm.collision.Collision.create(u, v, u, v, dr, t0, s0, pm.vector.subtract(v[1], v[0]));
+					
+				} else {
+					return pm.collision.Collision.create(u, v, u, v, dr, t0, s0, pm.vector.subtract(u[1], u[0]));
+					
+				} 
 				
 			} else {
 				// Pas de collision
-				return [false, 0, 0];
+				return new pm.collision.NoCollision();
 			}
 			
 		} else {
 			// Pas de collision
-			return [false, 0, 0];
+			return new pm.collision.NoCollision();
 		}
 	} 
 	
@@ -260,14 +329,14 @@ var planetmars = (function(pm) {
 	 * Elle prend 2 segments `u` et `v` en paramètres, plus un vecteur de déplacement `d`. Le vecteur `v` est considéré comme statique.
 	 */
 	collision._segmentsCollide = function (u, v, d) {
-		var collision, u_n, v_n, d_n, w, u_a, u_b, v_a, v_b, w, p, t, norm;
+		var collision, d_v, d_u, d_d, u_n, v_n, d_n, w, u_a, u_b, v_a, v_b, w, p, t, norm;
 		
 		collision = new pm.collision.NoCollision();
 
 		// Projection sur le vecteur normal au segment `u`
 		
-		w = pm.vector.subtract(u[1], u[0]);
-		u_n = pm.vector.orthogonalVector(w);
+		d_u = pm.vector.subtract(u[1], u[0]);
+		u_n = pm.vector.orthogonalVector(d_u);
 		
 		pm.util.leftApply(null, pm.vector.minMaxProjection(u, u_n), function(min, max) {
 			u_a = min;
@@ -295,7 +364,7 @@ var planetmars = (function(pm) {
 				if ( ! collision.collide || t < collision.time ) {
 
 					collision = pm.collision.Collision.create(
-						u, v, u, v, d, t, u_n
+						u, v, u, v, d, t, null, d_u
 					);
 
 				}
@@ -313,8 +382,8 @@ var planetmars = (function(pm) {
 
 		// Projection sur le vecteur normal au segment `v`
 		
-		w = pm.vector.subtract(v[1], v[0]);
-		v_n = pm.vector.orthogonalVector(w);
+		d_v = pm.vector.subtract(v[1], v[0]);
+		v_n = pm.vector.orthogonalVector(d_v);
 		
 		pm.util.leftApply(null, pm.vector.minMaxProjection(u, v_n), function(min, max) {
 			u_a = min;
@@ -342,7 +411,7 @@ var planetmars = (function(pm) {
 				if ( ! collision.collide || t < collision.time ) {
 
 					collision = pm.collision.Collision.create(
-						u, v, u, v, d, t, v_n
+						u, v, u, v, d, t, null, d_v
 					);
 
 				}
@@ -353,7 +422,7 @@ var planetmars = (function(pm) {
 
 			if ( pm.util.floatEq(v_a, u_a, 0.0001) || pm.util.floatEq(v_a, u_b, 0.0001) ) {
 				// Collision point à segment
-				norm = v_n;
+				norm = d_v;
 			}
 
 		}
@@ -382,11 +451,11 @@ var planetmars = (function(pm) {
 			
 			if ( ! norm ) {
 				// Collision segments interpénétrés
-				norm = v_n;
+				norm = d_v;
 			}
 
 			collision = pm.collision.Collision.create(
-				u, v, u, v, d, 0, norm
+				u, v, u, v, d, 0, null, norm
 			);
 
 		}

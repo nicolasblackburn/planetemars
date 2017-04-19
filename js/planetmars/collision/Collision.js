@@ -7,12 +7,13 @@ var planetmars = (function(pm) {
 		this.segment1 = [];
 		this.segment2 = [];
 		this.time = 0; // temps de collision
+		this.scale = 0; // multiple scalaire pour le point de collision sur le segment2
 		this.velocity = [0,0]; 
 	}
  
 	pm.collision = pm.collision || {};
 	
-	Collision.create = function (shape1, shape2, segment1, segment2, velocity, time, axis) {
+	Collision.create = function (shape1, shape2, segment1, segment2, velocity, time, scale, axis) {
 		var collision = new Collision();
 		collision.shape1 = shape1;
 		collision.shape2 = shape2;
@@ -20,6 +21,7 @@ var planetmars = (function(pm) {
 		collision.segment2 = segment2;
 		collision.velocity = velocity;
 		collision.time = time;
+		collision.scale;
 		collision.axis = axis;
 		
 		return collision;

@@ -45,63 +45,162 @@
 			}
 		});
 	});
+	
+	planetmars.test = {};
+	
+	planetmars.test.segmentCollisionsTest = function() {
+		game.currentScreen.paintBackground();
+		
+		var 
+			A = [[0,0,1],[36,0,1]],
+			B = A.map(function (p) { return mult(rot(Math.PI/4),[p])[0];}),
+			C = B.map(function (p) { return mult(rot(Math.PI/4),[p])[0];}),
+			D = C.map(function (p) { return mult(rot(Math.PI/4),[p])[0];});
+		
+		g
+			.setStyle("#FFF")
+			.strokeLine(A[0], A[1])
+			.fillCenteredCircle(A[1], 3)
+			.strokeLine(B[0], B[1])
+			.fillCenteredCircle(B[1], 3)
+			.strokeLine(C[0], C[1])
+			.fillCenteredCircle(C[1], 3)
+			.strokeLine(D[0], D[1])
+			.fillCenteredCircle(D[1], 3);
+	};
 
 })(planetmars || {}, jQuery);
-
-var vec = planetmars.vector,
-	collide = planetmars.collision.segmentsCollide,
-	collide2 = planetmars.collision.movingSegmentsCollide;
-
-var 
-	A0 = vec.add([0,30],[300,300]),
-	B0 = vec.add([20,0],[300,300]),
-	V = [50,-10],
-	A1 = vec.add(vec.subtract(vec.add(A0,V),[300,300]),[300,300]),
-	B1 = vec.add(vec.subtract(vec.add(B0,V),[300,300]),[300,300]),
-	C0 = vec.add([30,50],[300,300]),
-	C1 = vec.add([30,-20],[300,300]),
-	blue = "#09C",
-	green = "#096",
-	white = "#9CF",
-	R0 = collide([A0, A1], [C0, C1]),
-	R1 = collide([B0, B1], [C0, C1]),
-	tA = R0[1]/R0[3],
-	sA = R0[2]/R0[3],
-	tB = R1[1]/R1[3],
-	sB = R1[2]/R1[3],
-	sA_minus_sB = sA - sB,
-	tA_minus_tB = tA - tB,
-	S0 = Math.max(0, sA),
-	S1 = Math.min(1, sB),
-	T0,
-	T1,
-	w;
+		
+var mult = function(S, T) {
+	var U = [], i, j, k;
 	
-function show() {
-	if (S0 > S1) {
-		console.log("No collision");
-	} else {
-		T0 = t(S0);
-		T1 = t(S1);
-		
-		if (T0 > T1) {
-			w = T1;
-			T1 = T0;
-			T0 = w;
-		}
-		
-		T0 = Math.max(0, T0);
-		T1 = Math.min(1, T1);
-		
-		S0 = s(T0);
-		S1 = s(T1);
-		
-		if (T0 > T1) {
-			console.log("No collision");
-		} else {
-			console.log("Collide!");
+	for (i = 0; i < S.length; i++) {
+		for (j = 0; j < T.length; j++) {
+			if (i === 0) {
+				U[j] = [];
+			}
+			for (k = 0; k < S[0].length; k++) {
+				if (k === 0) {
+					U[j][i] = S[i][k]*T[j][k];
+				} else {
+					U[j][i] += S[i][k]*T[j][k];
+				}
+			}
 		}
 	}
+	
+	return U;
+};
+
+var rot = function(theta) {
+	U = mult(id,nul);
+	U[2][2] = 1;
+	U[0][0] = Math.cos(theta*Math.PI);
+	U[0][1] = Math.sin(theta*Math.PI);
+	U[1][0] = -Math.sin(theta*Math.PI);
+	U[1][1] = Math.sin(theta*Math.PI);
+	
+	return U;
+}
+
+var trans = function(dx, dy) {
+	U = mult(id,id);
+	U[2][0] = dx;
+	U[2][1] = dy;
+	
+	return U;
+}
+
+var scale = function(sx, sy) {
+	U = mult(id,id);
+	U[0][0] = sx;
+	U[1][1] = sy;
+	
+	return U;
+}
+
+var transform = function(points, M) {
+	var new_points = [], i;
+	
+	for (i = 0; i < points.length; i++) {
+		new_points[i] =  mult(M,[points[i].concat([1])]);
+	}
+	
+	return new_points;
+}
+
+var echelon = function(M) {
+	var S = [], i, j, k, a, b, det;
+	
+	for (j = 0; j < M[0].length - 1; j++) {
+		for (k = j + 1; k < M[0].length; k++) {
+			for (i = j; i < M.length; i++) {
+				if (j === 0) {
+					if (k === j) {
+						S[i] = [];
+						S[i][j] = M[i][j];
+					}
+					S[i][k] = M[j][j]*M[i][k] - M[j][k]*M[i][j];
+				} else {
+					if (i === j) {
+						a = S[j][j];
+						b = S[j][k];
+					}
+					S[i][k] = a*S[i][k] - b*S[i][j];
+				}
+				//console.log("i = %d, j = %d, k = %d, a_(j,j) = %d, a_(j,k) = %d",i,j,k, a, b);
+			}
+			
+		}
+		//console.log(JSON.stringify(S));
+	}
+	
+	return S;
+}
+
+var id = [[1,0,0],[0,1,0],[0,0,1]];
+var nul = [[0,0,0],[0,0,0],[0,0,0]];
+
+function rotate(t, v) {
+	var cos = Math.cos(t); sin = Math.sin(t);
+	return [cos*v[0]-sin*v[1],sin*v[0]+cos*v[1]];
+}
+
+function translate(u, v) {
+	return [u[0]+v[0], u[1]+v[1]];
+}
+
+function listRotate(t,l) {
+	var i, k = [];
+	for (i = 0; i < l.length; i++) {
+		k[i] = rotate(t,l[i]);
+	}
+	return k;
+}
+
+function listTranslate(u,l) {
+	var i, k = [];
+	for (i = 0; i < l.length; i++) {
+		k[i] = translate(u,l[i]);
+	}
+	return k;
+}
+
+function test() {
+	var vec = planetmars.vector,
+		col = planetmars.collision;
+	/*
+	var 
+		A0 = vec.add([0,30],[300,300]),
+		B0 = vec.add([20,0],[300,300]),
+		V = [50,-10],
+		A1 = vec.add(vec.subtract(vec.add(A0,V),[300,300]),[300,300]),
+		B1 = vec.add(vec.subtract(vec.add(B0,V),[300,300]),[300,300]),
+		C0 = vec.add([30,50],[300,300]),
+		C1 = vec.add([30,-20],[300,300]),
+		blue = "#09C",
+		green = "#096",
+		white = "#9CF";
 
 	g
 		.setStyle("#FFF")
@@ -114,42 +213,52 @@ function show() {
 		dA = vec.subtract(A1,A0),
 		P0 = vec.add(C0, vec.scale(S0, vec.subtract(C1,C0))),
 		P1 = vec.add(C0, vec.scale(S1, vec.subtract(C1,C0))),
-		//P2 = vec.add(C0, vec.scale(s(tB), vec.subtract(C1,C0))),
-		//P3 = vec.add(C0, vec.subtract(C1,C0)),
-		//P0 = vec.add(C0),
-		//P1 = vec.add(C0, vec.scale(s(tA), vec.subtract(C1,C0))),
-		//P2 = vec.add(C0, vec.scale(s(tB), vec.subtract(C1,C0))),
-		//P3 = vec.add(C0, vec.subtract(C1,C0)),
-		//Q0 = vec.add(P0, vec.scale(-t(0), dA)),
-		//Q1 = vec.add(P1, vec.scale(-t(sA), dA)),
-		//Q2 = vec.add(P2, vec.scale(-t(sB), dA)),
-		//Q3 = vec.add(P3, vec.scale(-t(1), dA)),
 		Q0 = vec.add(P0, vec.scale(-T0, dA)),
 		Q1 = vec.add(P1, vec.scale(-T1, dA)),
 		H0 = vec.add(C0, vec.scale(S0, vec.subtract(C1,C0))),
 		H1 = vec.add(H0,  vec.scale(-T0, dA));
-		//Q2 = vec.add(P2, vec.scale(-t(sB), dA)),
-		//Q3 = vec.add(P3, vec.scale(-t(1), dA));
+	*/
 	
-	g
-		.setStyle("#59F")
-		.strokeLine(H0,H1)
-		//.strokeLine(P1,Q1)
-		//.strokeLine(P2,Q2)
-		//.strokeLine(P3,Q3)
-		.setStyle("#6F3")
-		.fillCenteredCircle(H0, 3);
-		//.fillCenteredCircle(P1, 3);
-		//.fillCenteredCircle(P2, 3)
-		//.fillCenteredCircle(P3, 3);
-}
-
-function t(s) {
-	return (s - sB)/sA_minus_sB*tA - (s - sA)/sA_minus_sB*tB;
-}
-
-function s(t) {
-	return (t - tB)/tA_minus_tB*sA - (t - tA)/tA_minus_tB*sB;
+	var
+		A = listTranslate([300,200], [[0,0],[36,0]]),
+		B = listTranslate([300,200], listRotate(Math.PI/4, listTranslate([-300,-200], A))),
+		C = listTranslate([300,200], listRotate(Math.PI/4, listTranslate([-300,-200], B))),
+		D = listTranslate([300,200], listRotate(Math.PI/4, listTranslate([-300,-200], C))),
+		E = listTranslate([300,200], listRotate(Math.PI/4, listTranslate([-300,-200], D))),
+		F = listTranslate([300,200], listRotate(Math.PI/4, listTranslate([-300,-200], E))),
+		G = listTranslate([300,200], listRotate(Math.PI/4, listTranslate([-300,-200], F))),
+		H = listTranslate([300,200], listRotate(Math.PI/4, listTranslate([-300,-200], G))),
+		
+		P = translate([300,200], [-20,0]),
+		
+		dr = [36,0];
+	
+	function drawSegment(S) {
+		g
+			.setStyle("#59F")
+			.strokeLine(S[0],S[1])
+			.setStyle("#96F")
+			.fillCenteredCircle(S[1], 3)
+	}
+	
+	function drawPoint(P) {
+		g
+			.setStyle("#3F6")
+			.fillCenteredCircle(P, 3)
+	}
+	
+	function drawMovement(p, v) {
+		g
+			.setStyle("rgba(255,208,60,.6)")
+			.strokeLine(v,translate(p,v))
+			.fillCenteredCircle(translate(p,v), 3)
+	}
+	
+	drawSegment(A);
+	drawPoint(P);
+	drawMovement(dr, P);
+	
+	console.log(JSON.stringify(planetmars.collision.pointSegmentCollide(P,A,dr)));
 }
 
 function drawSegmentsCollisionInfo(segment1, segment2, v, collision) {

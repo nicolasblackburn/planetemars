@@ -46,7 +46,7 @@ var planetmars = (function(pm) {
 			oldposition, 
 			interv1 );
 		
-		axis = pm.vector.orthogonalVector(event.collision.axis);
+		axis = event.collision.axis;
 
 		newvelocity = pm.vector.subtract(
 			pm.vector.projectOnto( oldvelocity, axis ),
