@@ -264,14 +264,26 @@ var planetmars = (function(pm) {
 	};
 	
 	// segmentsCollide
-	collision.segmentsCollide = function(u, v, dr) {
+	collision.segmentsCollide = function(u, v, dr, secondPass) {
 		var 
 			r0 = pm.collision.pointSegmentCollide(u[0], v, dr);
 			r1 = pm.collision.pointSegmentCollide(u[1], v, dr);
 		
 		if (! r0[0] && ! r1[0]) {
-			// Pas de collision
-			return new pm.collision.NoCollision();
+			
+			if (secondPass) {
+				
+				// Pas de collision
+				return new pm.collision.NoCollision();
+				
+			} else {
+				
+				// Il faut faire une deuxième passe car nous avons détecté que les extrémités du segment u n'intersectent pas v, mais il faut vérifier que les extrémités du segment v n'intersectent pas u
+				
+				return collision.segmentsCollide(v, u, pm.vector.scale(-1,dr), true);
+			
+			}
+			
 		}
 		
 		var
@@ -286,15 +298,25 @@ var planetmars = (function(pm) {
 			t0,
 			t1;
 		
+		// Est-ce que ces fonctions pourraient être optimisées?
 		function t(s) {
-			return (s - sb)/ds*ta - (s - sa)/ds*tb;
+			if (ds === 0) {
+				return 0;
+			} else {
+				return (s - sb)/ds*ta - (s - sa)/ds*tb;
+			}
 		}
 
 		function s(t) {
-			return (t - tb)/dt*sa - (t - ta)/dt*sb;
+			if (dt === 0) {
+				return 0;
+			} else {
+				return (t - tb)/dt*sa - (t - ta)/dt*sb;
+			}
 		}
 		
 		if (s0 < s1) {
+			
 			t0 = t(s0);
 			t1 = t(s1);
 			
@@ -302,26 +324,26 @@ var planetmars = (function(pm) {
 			t1 = Math.min(1, Math.max(t0, t1));
 			
 			if (t0 <= t1) {
+				
 				// Collision !
 				s0 = s(t0);
 				
-				if (0 < s0 && s0 < 1) {
-					return pm.collision.Collision.create(u, v, u, v, dr, t0, s0, pm.vector.subtract(v[1], v[0]));
-					
-				} else {
-					return pm.collision.Collision.create(u, v, u, v, dr, t0, s0, pm.vector.subtract(u[1], u[0]));
-					
-				} 
+				return pm.collision.Collision.create(u, v, u, v, dr, t0, s0, pm.vector.subtract(v[1], v[0]));
 				
 			} else {
+				
 				// Pas de collision
 				return new pm.collision.NoCollision();
+				
 			}
 			
 		} else {
+			
 			// Pas de collision
 			return new pm.collision.NoCollision();
+			
 		}
+		
 	} 
 	
 	/**

@@ -233,32 +233,36 @@ function test() {
 		
 		dr = [36,0];
 	
-	function drawSegment(S) {
-		g
-			.setStyle("#59F")
-			.strokeLine(S[0],S[1])
-			.setStyle("#96F")
-			.fillCenteredCircle(S[1], 3)
-	}
-	
-	function drawPoint(P) {
-		g
-			.setStyle("#3F6")
-			.fillCenteredCircle(P, 3)
-	}
-	
-	function drawMovement(p, v) {
-		g
-			.setStyle("rgba(255,208,60,.6)")
-			.strokeLine(v,translate(p,v))
-			.fillCenteredCircle(translate(p,v), 3)
-	}
-	
 	drawSegment(A);
 	drawPoint(P);
 	drawMovement(dr, P);
 	
 	console.log(JSON.stringify(planetmars.collision.pointSegmentCollide(P,A,dr)));
+}
+
+function redraw() {
+	game.currentScreen.paintBackground();
+}
+	
+function drawSegment(S) {
+	g
+		.setStyle("#59F")
+		.strokeLine(S[0],S[1])
+		.setStyle("#96F")
+		.fillCenteredCircle(S[1], 3)
+}
+
+function drawPoint(P) {
+	g
+		.setStyle("#3F6")
+		.fillCenteredCircle(P, 3)
+}
+
+function drawMovement(p, v) {
+	g
+		.setStyle("rgba(255,208,60,.6)")
+		.strokeLine(v,translate(p,v))
+		.fillCenteredCircle(translate(p,v), 3)
 }
 
 function drawSegmentsCollisionInfo(segment1, segment2, v, collision) {
