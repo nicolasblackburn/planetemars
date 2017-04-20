@@ -56,6 +56,7 @@ var planetmars = (function(pm) {
 
 		this.calculatedVelocity = newvelocity;
 		this.calculatedPosition = newposition;
+		this.velocity = pm.vector.projectOnto( this.velocity, axis );
 				
 	};
 	

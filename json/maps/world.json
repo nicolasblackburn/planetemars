@@ -571,6 +571,166 @@
                  "width":48,
                  "x":480,
                  "y":384
+                }, 
+                {
+                 "gid":2145,
+                 "height":48,
+                 "id":34,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Crab",
+                 "visible":true,
+                 "width":48,
+                 "x":912,
+                 "y":912
+                }, 
+                {
+                 "gid":2145,
+                 "height":48,
+                 "id":35,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Crab",
+                 "visible":true,
+                 "width":48,
+                 "x":816,
+                 "y":864
+                }, 
+                {
+                 "gid":2145,
+                 "height":48,
+                 "id":36,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Crab",
+                 "visible":true,
+                 "width":48,
+                 "x":816,
+                 "y":816
+                }, 
+                {
+                 "gid":2145,
+                 "height":48,
+                 "id":37,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Crab",
+                 "visible":true,
+                 "width":48,
+                 "x":816,
+                 "y":912
+                }, 
+                {
+                 "gid":2145,
+                 "height":48,
+                 "id":38,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Crab",
+                 "visible":true,
+                 "width":48,
+                 "x":1008,
+                 "y":1008
+                }, 
+                {
+                 "gid":2145,
+                 "height":48,
+                 "id":39,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Crab",
+                 "visible":true,
+                 "width":48,
+                 "x":1104,
+                 "y":1008
+                }, 
+                {
+                 "gid":2145,
+                 "height":48,
+                 "id":40,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Crab",
+                 "visible":true,
+                 "width":48,
+                 "x":1056,
+                 "y":960
+                }, 
+                {
+                 "gid":2145,
+                 "height":48,
+                 "id":41,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Crab",
+                 "visible":true,
+                 "width":48,
+                 "x":1248,
+                 "y":912
+                }, 
+                {
+                 "gid":2145,
+                 "height":48,
+                 "id":42,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Crab",
+                 "visible":true,
+                 "width":48,
+                 "x":1248,
+                 "y":864
+                }, 
+                {
+                 "gid":2145,
+                 "height":48,
+                 "id":43,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Crab",
+                 "visible":true,
+                 "width":48,
+                 "x":1248,
+                 "y":816
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -606,7 +766,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":34,
+ "nextobjectid":44,
  "orientation":"orthogonal",
  "properties":
     {

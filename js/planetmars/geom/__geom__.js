@@ -49,6 +49,28 @@ var planetmars = (function(pm) {
 		return maxi;
 	};
 
+	geom.closestVertex = function (points, v) {
+		return points[geom.closestVertexIndex(points, v)];
+	};
+
+	geom.closestVertexIndex = function (points, v) {
+		var mini, minp;
+	
+		mini = 0;
+		minp = pm.vector.dot(points[mini], v);
+
+		for (i = 0; i < points.length; i++ ) {
+			p = pm.vector.dot(points[i], v);
+
+			if (p < minp) {
+				mini = i;
+				minp = p;
+			}
+		}
+
+		return mini;
+	};
+
 	geom.intervalsIntersect = function (inter1, inter2) {
 		var umin, umax, vmin, vmax;
 		
@@ -373,7 +395,7 @@ var planetmars = (function(pm) {
 		// Point de support
 		support = geom.furthestVertexIndex(points, pm.vector.scale(-1, v));
 		
-		// Énumérer les segments visibles de polyA dans le sens anti-horaire
+		// Énumérer les segments visibles du polygone dans le sens anti-horaire
 
 		n = 0;
 		i = support;
@@ -394,7 +416,7 @@ var planetmars = (function(pm) {
 			a = pm.vector.dot(pm.vector.subtract(p1, p0), w);
 		}
 
-		// Énumérer les segments visibles de polyA dans le sens horaire
+		// Énumérer les segments visibles du polygone dans le sens horaire
 		n = 0;
 		i = support;
 		p0 = points[i];

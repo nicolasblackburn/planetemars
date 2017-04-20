@@ -70,6 +70,8 @@
 	};
 
 })(planetmars || {}, jQuery);
+
+window.debug = true;
 		
 var mult = function(S, T) {
 	var U = [], i, j, k;
@@ -246,23 +248,41 @@ function redraw() {
 	
 function drawSegment(S) {
 	g
+		.save()
+		.translate(0,72)
 		.setStyle("#59F")
 		.strokeLine(S[0],S[1])
 		.setStyle("#96F")
 		.fillCenteredCircle(S[1], 3)
+		.restore()
 }
 
 function drawPoint(P) {
 	g
+		.save()
+		.translate(0,72)
 		.setStyle("#3F6")
 		.fillCenteredCircle(P, 3)
+		.restore()
 }
 
 function drawMovement(p, v) {
 	g
+		.save()
+		.translate(0,72)
 		.setStyle("rgba(255,208,60,.6)")
 		.strokeLine(v,translate(p,v))
 		.fillCenteredCircle(translate(p,v), 3)
+		.restore()
+}
+
+function drawLines(points) {
+	g
+		.save()
+		.translate(0,72)
+		.setStyle("#59F")
+		.strokeLines(points)
+		.restore()
 }
 
 function drawSegmentsCollisionInfo(segment1, segment2, v, collision) {

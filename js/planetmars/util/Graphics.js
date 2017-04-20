@@ -93,7 +93,13 @@ var planetmars = (function (pm, undefined) {
 		return this;
 	};
 	
-	Graphics.prototype.strokePoints = function(shape) {
+	Graphics.prototype.translate = function(x, y) {
+		this.g.translate(x,y);
+		
+		return this;
+	};
+	
+	Graphics.prototype.strokeLines = function(shape) {
 		
 		var i = 0;
 		
@@ -121,8 +127,6 @@ var planetmars = (function (pm, undefined) {
 		if (! shape.length) {
 			return;
 		}
-		
-		console.log(this.g);
 		
 		this.g.beginPath();
 		this.g.moveTo(shape[0][0] + 0.5, shape[0][1] + 0.5);

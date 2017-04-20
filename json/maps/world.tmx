@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE map SYSTEM "http://mapeditor.org/dtd/1.0/map.dtd">
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="240" height="88" tilewidth="48" tileheight="48" nextobjectid="34">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="240" height="88" tilewidth="48" tileheight="48" nextobjectid="44">
  <properties>
   <property name="initialSavePoint" value="Save Point 1"/>
   <property name="objectTypes" value=""/>
@@ -507,6 +507,16 @@
   <object id="30" type="Crab" gid="2145" x="1248" y="1248" width="48" height="48"/>
   <object id="31" type="Crab" gid="2145" x="1296" y="1440" width="48" height="48"/>
   <object id="32" type="Bat" gid="2177" x="480" y="384" width="48" height="48"/>
+  <object id="34" type="Crab" gid="2145" x="912" y="912" width="48" height="48"/>
+  <object id="35" type="Crab" gid="2145" x="816" y="864" width="48" height="48"/>
+  <object id="36" type="Crab" gid="2145" x="816" y="816" width="48" height="48"/>
+  <object id="37" type="Crab" gid="2145" x="816" y="912" width="48" height="48"/>
+  <object id="38" type="Crab" gid="2145" x="1008" y="1008" width="48" height="48"/>
+  <object id="39" type="Crab" gid="2145" x="1104" y="1008" width="48" height="48"/>
+  <object id="40" type="Crab" gid="2145" x="1056" y="960" width="48" height="48"/>
+  <object id="41" type="Crab" gid="2145" x="1248" y="912" width="48" height="48"/>
+  <object id="42" type="Crab" gid="2145" x="1248" y="864" width="48" height="48"/>
+  <object id="43" type="Crab" gid="2145" x="1248" y="816" width="48" height="48"/>
  </objectgroup>
  <objectgroup name="savepoints">
   <object id="33" name="Save Point 1" type="savepoint" x="192" y="144" width="48" height="48"/>

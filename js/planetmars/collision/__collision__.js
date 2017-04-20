@@ -263,227 +263,78 @@ var planetmars = (function(pm) {
 		}
 	};
 	
-	// segmentsCollide
-	collision.segmentsCollide = function(u, v, dr, secondPass) {
+	collision.segmentsCollide = function(segmentA, segmentB, velocity) {
 		var 
-			r0 = pm.collision.pointSegmentCollide(u[0], v, dr);
-			r1 = pm.collision.pointSegmentCollide(u[1], v, dr);
-		
-		if (! r0[0] && ! r1[0]) {
+			geom = pm.geom,
+			vec = pm.vector;
 			
-			if (secondPass) {
-				
-				// Pas de collision
-				return new pm.collision.NoCollision();
-				
-			} else {
-				
-				// Il faut faire une deuxième passe car nous avons détecté que les extrémités du segment u n'intersectent pas v, mais il faut vérifier que les extrémités du segment v n'intersectent pas u
-				
-				return collision.segmentsCollide(v, u, pm.vector.scale(-1,dr), true);
-			
-			}
-			
-		}
-		
-		var
-			ta = r0[1]/r0[3],
-			sa = r0[2]/r0[3],
-			tb = r1[1]/r1[3],
-			sb = r1[2]/r1[3],
-			ds = sa - sb,
-			dt = ta - tb,
-			s0 = Math.max(0, Math.min(sa, sb)),
-			s1 = Math.min(1, Math.max(sa, sb)),
-			t0,
-			t1;
-		
-		// Est-ce que ces fonctions pourraient être optimisées?
-		function t(s) {
-			if (ds === 0) {
-				return 0;
-			} else {
-				return (s - sb)/ds*ta - (s - sa)/ds*tb;
-			}
-		}
+		var a,b,c,d,det,s,t,p,q,v0,v1,v,index, closest, r0, r1, r, min;
 
-		function s(t) {
-			if (dt === 0) {
-				return 0;
-			} else {
-				return (t - tb)/dt*sa - (t - ta)/dt*sb;
-			}
+		a = segmentA[1][0]-segmentA[0][0];
+		b = segmentB[1][0]-segmentB[0][0];
+		c = segmentA[1][1]-segmentA[0][1];
+		d = segmentB[1][1]-segmentB[0][1];
+
+		det = a*d - b*c;
+		
+		p = (segmentB[0][0]-segmentA[0][0])*velocity[0] + (segmentB[0][1]-segmentA[0][1])*velocity[1];
+		q = (segmentB[1][0]-segmentA[0][0])*velocity[0] + (segmentB[1][1]-segmentA[0][1])*velocity[1];
+		
+		index = 0;
+		
+		if (q < p) {
+			index = 1;
 		}
 		
-		if (s0 < s1) {
-			
-			t0 = t(s0);
-			t1 = t(s1);
-			
-			t0 = Math.max(0, Math.min(t0, t1));
-			t1 = Math.min(1, Math.max(t0, t1));
-			
-			if (t0 <= t1) {
-				
-				// Collision !
-				s0 = s(t0);
-				
-				return pm.collision.Collision.create(u, v, u, v, dr, t0, s0, pm.vector.subtract(v[1], v[0]));
-				
-			} else {
-				
-				// Pas de collision
-				return new pm.collision.NoCollision();
-				
-			}
-			
-		} else {
+		closest = segmentB[index];
+		
+		p = segmentA[1];
+		
+		if (det < 0) {
+			det = -det;
+			a = -a;
+			b = -b;
+			c = -c;
+			d = -d;
+			p = segmentA[0];
+		}
+		
+		v0 = [vec.add(closest, [b,d]), closest];
+		v1 = [closest, vec.add(closest, [a,c])];
+		
+		r0 = collision.pointSegmentCollide(p, v0, velocity);
+		r1 = collision.pointSegmentCollide(p, v1, velocity);
+		
+		if (!r0[0] && !r1[0]) {
 			
 			// Pas de collision
 			return new pm.collision.NoCollision();
 			
-		}
-		
-	} 
-	
-	/**
-	 * Cette fonction détecte une collision continue entre deux segments dont l'un est en mouvement et l'autre statique.
-	 * Elle prend 2 segments `u` et `v` en paramètres, plus un vecteur de déplacement `d`. Le vecteur `v` est considéré comme statique.
-	 */
-	collision._segmentsCollide = function (u, v, d) {
-		var collision, d_v, d_u, d_d, u_n, v_n, d_n, w, u_a, u_b, v_a, v_b, w, p, t, norm;
-		
-		collision = new pm.collision.NoCollision();
-
-		// Projection sur le vecteur normal au segment `u`
-		
-		d_u = pm.vector.subtract(u[1], u[0]);
-		u_n = pm.vector.orthogonalVector(d_u);
-		
-		pm.util.leftApply(null, pm.vector.minMaxProjection(u, u_n), function(min, max) {
-			u_a = min;
-		});
-		
-		pm.util.leftApply(null, pm.vector.minMaxProjection(v, u_n), function(min, max) {
-			v_a = min;
-			v_b = max;
-		});
-		
-		if ( ! pm.geom.intervalsIntersectStrict([u_a, u_a], [v_a, v_b]) ) {
-			// L'axe du segment `u` est séparateur, pas de collision au temps `t` = 0
+		} else {
 			
-			w = pm.vector.projectOnto(d, u_n);
-			p = u_n[0] ? w[0] : w[1];
-
-			if ( ! pm.geom.intervalsIntersectStrict([u_a, u_a + p], [v_a, v_b]) ) {
-
+			v = v0;
+			r = r0;
+			s = vec.add(closest, [b,d]);
+			
+			if (!r0[0] || (r1[0] && r1[1] < r0[1])) {
+				v = v1;
+				r = r1;
+				s = vec.add(closest, [a,c]);
+			}
+			
+			if (p[0] === s[0] && p[1] === s[1]) {
+				
+				// Pas de collision car le point frôle une extrémité
 				return new pm.collision.NoCollision();
-
+				
 			} else {
-
-				t = p < 0 ? (v_b - u_a) / p : (v_a - u_a) / p;
-				
-				if ( ! collision.collide || t < collision.time ) {
-
-					collision = pm.collision.Collision.create(
-						u, v, u, v, d, t, null, d_u
-					);
-
-				}
-
-			}
-		
-		} else {
-
-			if (pm.util.floatEq(u_a, v_a, 0.0001) || pm.util.floatEq(u_a, v_b, 0.0001)) {
-				// Collision point à segment
-				norm = u_n;
-			}
-
-		}
-
-		// Projection sur le vecteur normal au segment `v`
-		
-		d_v = pm.vector.subtract(v[1], v[0]);
-		v_n = pm.vector.orthogonalVector(d_v);
-		
-		pm.util.leftApply(null, pm.vector.minMaxProjection(u, v_n), function(min, max) {
-			u_a = min;
-			u_b = max;
-		});
-		
-		pm.util.leftApply(null, pm.vector.minMaxProjection(v, v_n), function(min, max) {
-			v_a = min;
-		});
-		
-		if ( ! pm.geom.intervalsIntersectStrict([u_a, u_b], [v_a, v_a]) ) {
-			// L'axe du segment `v` est séparateur, pas de collision au temps `t` = 0
 			
-			w = pm.vector.projectOnto(d, v_n);
-			p = v_n[0] ? w[0] : w[1];
-
-			if (! pm.geom.intervalsIntersectStrict([u_a, u_a + p], [v_a, v_a]) ) {
-
-				return new pm.collision.NoCollision();;
-
-			} else {
-
-				t = p < 0 ? (v_a - u_a) / p : (v_a - u_b) / p;
-				
-				if ( ! collision.collide || t < collision.time ) {
-
-					collision = pm.collision.Collision.create(
-						u, v, u, v, d, t, null, d_v
-					);
-
-				}
-
-			}
-
-		} else {
-
-			if ( pm.util.floatEq(v_a, u_a, 0.0001) || pm.util.floatEq(v_a, u_b, 0.0001) ) {
-				// Collision point à segment
-				norm = d_v;
-			}
-
-		}
-
-		// Projection sur le vecteur normal du déplacement `d`
-		
-		d_n = pm.vector.orthogonalVector(d);
-		
-		pm.util.leftApply(null, pm.vector.minMaxProjection(u, d_n), function(min, max) {
-			u_a = min;
-			u_b = max;
-		});
-		
-		pm.util.leftApply(null, pm.vector.minMaxProjection(v, d_n), function(min, max) {
-			v_a = min;
-			v_b = max;
-		});
-
-		if ( ! pm.geom.intervalsIntersectStrict([u_a, u_b], [v_a, v_b]) ) {
-
-			return new pm.collision.NoCollision();
-
-		} 
-				
-		if ( ! collision.collide ) {
+				// Collision !
+				return pm.collision.Collision.create(segmentA, v, segmentA, v, velocity, r[1]/r[3], r[2]/r[3], pm.vector.subtract(v[1], v[0]));
 			
-			if ( ! norm ) {
-				// Collision segments interpénétrés
-				norm = d_v;
 			}
-
-			collision = pm.collision.Collision.create(
-				u, v, u, v, d, 0, null, norm
-			);
-
+			
 		}
-
-		return collision;
-		
 	};
  
 	pm.collision = pm.collision || {};
